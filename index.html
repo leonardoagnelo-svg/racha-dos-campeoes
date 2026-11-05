@@ -360,7 +360,7 @@ const SQUADS=[
  {id:"esp26",c:["copa"],n:"Espanha 2026",t:"ESP 26",p:"Unai Simón:GOL,Pedro Porro:LAT,Cucurella:LAT,Cubarsí:ZAG,Laporte:ZAG,Rodri:VOL,Fabián Ruiz:MEI,Dani Olmo:MEI,Lamine Yamal:ATA,Álex Baena:MEI,Oyarzabal:ATA,*Eric García:ZAG,*Zubimendi:VOL,*Pedri:MEI,*Merino:MEI,*Nico Williams:ATA,*Ferran Torres:ATA"}
 ];
 const FORMS={
- "4-3-3":[["GOL"],["LD","ZAG","ZAG","LE"],["VOL","MEI","MEI"],["PD","CA","PE"]],
+ "4-3-3":[["GOL"],["LD","ZAG","ZAG","LE"],["VOL"],["MEI","MEI"],["PD","CA","PE"]],
  "4-4-2":[["GOL"],["LD","ZAG","ZAG","LE"],["MD","VOL","VOL","ME"],["ATA","ATA"]],
  "4-2-3-1":[["GOL"],["LD","ZAG","ZAG","LE"],["VOL","VOL"],["MD","MEI","ME"],["CA"]],
  "4-1-4-1":[["GOL"],["LD","ZAG","ZAG","LE"],["VOL"],["MD","MEI","MEI","ME"],["CA"]],
@@ -801,7 +801,7 @@ function field(t,interactive){
  return `<div class="field-wrap ${t}">
   <div class="field-title"><h3>${esc(S.names[t])}${S.play==="online"&&S.seat===t?` <small class="you">você</small>`:""}</h3>${interactive&&canArrange(t)?`<span class="fsel"><select data-fchange="${t}" aria-label="Formação de ${esc(S.names[t])}">${Object.keys(FORMS).map(f=>`<option ${S.form[t]===f?"selected":""}>${f}</option>`).join("")}</select><span class="label">${count(t)}/11</span></span>`:`<span class="label">${S.form[t]} · ${count(t)}/11</span>`}</div>
   ${interactive?`<div class="hand">${hand(t)}</div>`:""}
-  <div class="pitch"><div class="lines">${rows.map(r=>`<div class="lr">${r.map(lbl=>{const i=idx++;const pk=S.lineup[t][i];
+  <div class="pitch"><div class="lines">${rows.map(r=>`<div class="lr">${r.map(lbl=>({lbl,i:idx++})).reverse().map(({lbl,i})=>{const pk=S.lineup[t][i];
    if(pk!==null&&pk!==undefined){const p=S.pool[pk];const fr=S.lastFill&&S.lastFill.t===t&&S.lastFill.i===i;
     const ch=M&&M.type==="troca"&&M.step===1&&t===M.t&&M.mine===i;
     const off=!fits(p,lbl);const inner=`<span class="dot ${off?"off":""}">${esc(initials(p.name))}</span><span class="sn">${esc(p.name)}</span><span class="sp ${off?"off":""}" title="${off?"Jogando improvisado":""}">${pdet(p).join("/")}</span>`;
