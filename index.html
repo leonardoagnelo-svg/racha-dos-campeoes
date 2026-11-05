@@ -204,6 +204,12 @@ h2{background:var(--gold-grad);-webkit-background-clip:text;background-clip:text
 .slot.mv .dot{cursor:grab}
 .slot .sp{font-size:9.5px;font-weight:800;letter-spacing:.06em;color:var(--muted);text-shadow:0 1px 2px #000;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
 .slot .sp.off{color:var(--warn)}
+.slot{position:relative}
+.ov{position:absolute;top:-6px;left:calc(50% + 10px);z-index:2;background:#0B0F14;color:var(--gold);border:1px solid var(--gold);border-radius:6px;font-size:11px;font-weight:900;line-height:1;padding:3px 4px;font-style:normal;font-variant-numeric:tabular-nums;animation:pop .45s ease-out}
+.ov.off{color:var(--warn);border-color:var(--warn)}
+.tovr{display:inline-block;font-size:15px;font-style:normal;font-weight:900;background:var(--gold-grad);color:#0B0F14;border-radius:6px;padding:2px 7px;vertical-align:middle;-webkit-text-fill-color:#0B0F14}
+.ovrline{margin:0;font-size:15px}
+.mo{color:var(--gold)}
 .slot.filled .dot.off{box-shadow:0 0 0 3px var(--warn)}
 .legend{margin:10px 0 0;font-size:11.5px;color:var(--muted)}
 .mcard{display:flex;flex-direction:column;gap:10px}
@@ -359,6 +365,8 @@ const SQUADS=[
 ,
  {id:"esp26",c:["copa"],n:"Espanha 2026",t:"ESP 26",p:"Unai Simón:GOL,Pedro Porro:LAT,Cucurella:LAT,Cubarsí:ZAG,Laporte:ZAG,Rodri:VOL,Fabián Ruiz:MEI,Dani Olmo:MEI,Lamine Yamal:ATA,Álex Baena:MEI,Oyarzabal:ATA,*Eric García:ZAG,*Zubimendi:VOL,*Pedri:MEI,*Merino:MEI,*Nico Williams:ATA,*Ferran Torres:ATA"}
 ];
+const OVR={"bra70": "78,92,82,84,82,86,91,90,94,90,97", "bra94": "86,87,84,85,83,87,88,82,83,90,96,82,74", "bra02": "88,90,90,89,82,83,88,85,90,94,96,77,78", "esp10": "92,82,88,89,92,88,87,94,93,84,92,82,80,78", "ale14": "95,90,82,87,90,90,77,90,85,92,85,83,80,85", "fra18": "86,84,85,89,85,90,90,85,93,93,82,79,78,77", "arg22": "90,82,82,87,85,87,88,86,98,90,90,79,79,80,78,76,79", "spfc92": "84,82,81,83,82,80,82,90,85,86,86,78", "san11": "79,82,80,84,80,84,79,82,86,91,82,77", "cor12": "86,82,82,84,83,84,88,85,82,81,86,78,80,75", "gre17": "84,81,79,88,80,79,85,82,90,84,85,79,80,76", "fla19": "82,83,84,84,86,86,88,89,92,93,94,80,78,74", "pal20": "87,82,81,84,85,83,82,82,88,86,83,80,78,77", "flu23": "82,81,85,84,83,86,82,86,89,82,88,84,78,78,76", "bot24": "85,81,84,84,86,84,87,90,86,90,87,79,82,80,77", "spfc05": "92,85,82,82,87,79,88,82,82,88,84", "int06": "82,80,78,83,82,80,79,87,84,85,83,84,81", "bar11": "85,90,85,89,87,89,94,93,84,82,97,85,79,84", "cor12m": "92,82,83,86,84,85,88,86,82,84,88", "rea14": "82,86,87,85,88,88,85,86,88,92,87,80,79", "che21": "86,82,82,85,86,86,88,82,86,85,82,80,81,80", "cru03": "83,84,80,85,85,82,84,82,92,86,84,78,79,78", "cor15": "84,87,80,82,84,83,89,91,90,84,85,78,82,79", "pal18": "84,84,80,86,82,84,86,82,90,85,84,80,76,77", "mil07": "84,83,82,90,87,88,90,82,88,96,88,80,74,79", "bar09": "86,80,89,85,88,85,95,94,96,92,88,80,82", "rea17": "85,86,89,90,87,89,89,92,87,96,85,82,83,80", "liv19": "90,87,88,85,94,88,86,86,92,90,88,84,82,80", "bay20": "92,90,82,85,91,88,90,89,90,89,96,80,82,80,79", "city23": "86,86,91,84,87,93,90,90,89,86,93,82,82", "bra58": "82,85,87,83,82,85,92,93,90,93,85", "bra62": "83,85,85,82,81,84,89,97,90,88,85", "arg86": "80,79,80,82,85,82,83,82,87,99,87,74", "fra98": "87,90,86,82,89,86,85,82,95,86,74,80,80,78", "ita06": "93,86,88,96,85,87,92,82,84,86,84,84,80,84", "pal99": "90,84,82,86,85,88,84,90,86,88,84,82,80", "cam13": "89,82,79,85,86,80,83,93,85,88,87,79,78", "pal21": "86,83,83,82,86,84,85,88,86,86,85,82,78,78", "fla22": "82,80,82,84,83,82,86,85,91,88,90,79,80,77,77", "fla81": "85,88,90,84,86,87,87,97,85,86,82", "spfc92m": "87,83,81,82,83,82,87,93,88,85,86", "pal16": "82,82,84,84,82,83,85,86,90,84,89,79,78", "cam21": "84,82,87,82,84,85,83,82,88,84,92,82,79,80", "pal23": "84,82,83,86,82,84,82,88,82,88,84,79,79", "rea02": "78,84,89,85,82,87,90,96,82,90,84,85,78,80", "liv05": "85,82,78,88,86,86,92,80,85,78,82,85,80,79", "mun08": "90,82,86,90,90,84,85,87,96,88,86,78,82,80", "int10": "91,90,82,89,88,90,88,93,89,82,94,81,80", "che12": "92,80,86,82,84,84,89,85,82,78,95,78,79", "bay13": "91,89,88,86,84,87,89,90,93,92,86,82,79", "bar15": "90,85,88,89,85,89,88,88,96,93,93,82,78,79", "rea22": "93,85,82,88,86,86,87,89,86,92,96,85,86,78", "rea24": "90,90,82,88,83,88,85,88,92,94,84,85,80,82", "cor90": "82,79,79,82,80,80,82,92,85,78,78", "sao91": "86,86,85,84,86,80,92,82,82,88,84", "fla92": "83,80,80,84,86,79,90,88,82,84,84", "pal93": "81,82,90,85,85,87,85,89,88,93,92", "pal94": "82,80,90,85,85,87,86,92,88,91,90", "bot95": "80,80,78,82,83,82,80,80,84,85,93", "gre96": "86,84,80,84,85,83,82,86,85,88,80", "vas97": "87,80,86,82,88,82,83,85,90,97,89", "cor98": "80,80,85,82,87,86,86,88,92,90,80", "cor99": "89,80,80,82,85,87,87,90,93,92,90", "vas00": "84,80,82,82,85,80,79,93,88,86,96", "cap01": "80,82,80,82,81,82,87,84,82,90,94", "san02": "85,80,85,82,83,80,84,88,92,93,82", "san04": "79,80,85,80,82,80,86,86,90,94,82", "cor05": "86,80,84,82,80,82,82,89,82,94,88", "sao06": "91,82,84,82,85,79,88,85,82,85,82", "sao07": "92,82,86,85,90,85,82,91,86,88,86", "sao08": "92,81,85,86,82,90,82,91,86,88,88", "fla09": "86,85,82,82,83,80,82,79,84,92,93", "flu10": "80,84,82,84,84,82,82,94,82,87,90", "cor11": "84,82,83,85,85,85,89,86,85,86,85", "flu12": "89,82,82,85,85,82,84,84,90,86,93", "cru13": "88,84,86,85,83,84,85,93,90,86,82", "cru14": "88,84,85,82,83,84,87,93,92,84,88", "cor17": "90,89,85,85,88,82,86,88,90,84,92", "fla20": "81,82,83,84,84,85,88,86,92,91,91", "pal22": "86,83,86,90,85,86,86,90,88,88,87", "fla25": "88,85,84,86,85,88,85,93,90,85,90", "mil90": "82,85,90,88,94,92,80,84,82,92,96,82", "est91": "80,80,85,82,80,85,82,90,88,89,88,78", "bar92": "85,80,82,90,80,86,85,82,91,92,82,78,79", "mar93": "86,82,80,86,89,87,82,84,90,88,86,78", "mil94": "84,84,83,82,93,90,86,84,86,92,86,76", "aja95": "88,85,87,86,89,88,86,86,85,91,90,82,86", "juv96": "86,82,80,85,84,85,86,83,90,90,88,80,79,78", "bvb97": "82,84,84,85,90,80,85,88,89,87,86,84,80,80", "rea98": "82,84,90,86,85,92,82,88,91,88,85,78,79,82", "mun99": "89,86,84,82,90,84,92,88,82,88,90,86,88", "rea00": "84,85,91,84,82,85,91,93,94,88,86,82,80,79", "bay01": "93,85,86,84,85,91,82,84,82,88,84,80,80", "mil03": "90,85,84,92,92,88,91,88,88,93,88,80,82,80", "por04": "85,86,82,84,90,85,88,85,95,85,86,82,79,80", "bar06": "84,80,82,84,88,85,84,92,86,94,94,85,85,86", "bar11c": "86,91,85,88,88,90,94,94,98,88,88,84,79,77", "rea14c": "87,86,85,88,90,82,90,91,90,85,94,85,84,80", "rea16": "88,86,85,85,88,86,89,87,86,85,92,80,82,82", "rea18": "86,86,88,87,88,88,89,88,86,86,90,80,92,80", "che21c": "89,86,86,86,88,87,93,86,89,90,82,82,82,82", "psg25": "90,91,91,88,85,92,90,89,93,95,92,85,79,79,80", "uru30": "82,90,85,90,85,84,84,88,85,88,86", "ita34": "88,82,82,84,87,82,85,93,88,86,87", "ita38": "86,84,84,82,88,85,86,92,93,85,86", "uru50": "91,83,84,84,93,86,92,84,85,92,82", "ale54": "90,84,82,86,86,84,85,91,90,86,85", "ing66": "90,82,85,86,93,86,93,88,86,92,85", "ale74": "92,88,90,86,96,84,85,88,84,93,84", "arg78": "91,80,82,84,92,84,88,95,86,86,82,78,79", "ita82": "93,87,86,82,86,90,82,90,89,94,85,80,79", "ale90": "86,82,90,86,86,84,95,85,85,85,89,79", "esp26": "86,86,87,88,85,92,86,88,94,84,86,80,86,89,82,89,86"};
+const ovrAt=(id,idx)=>+((OVR[id]||"").split(",")[idx])||78;
 const FORMS={
  "4-3-3":[["GOL"],["LD","ZAG","ZAG","LE"],["VOL"],["MEI","MEI"],["PD","CA","PE"]],
  "4-4-2":[["GOL"],["LD","ZAG","ZAG","LE"],["MD","VOL","VOL","ME"],["ATA","ATA"]],
@@ -409,10 +417,14 @@ const detOf=(n,p)=>(DET[n+"|"+p]||DET[n]||DEFDET[p]).split("/");
 const ACC={GOL:["GOL"],LD:["LD"],LE:["LE"],ALA:["LD","LE"],ZAG:["ZAG"],VOL:["VOL"],MEI:["MEI","MC"],MD:["PD","MC","MEI"],ME:["PE","MC","MEI"],PD:["PD"],PE:["PE"],CA:["CA"],ATA:["CA","PD","PE"]};
 const pdet=p=>p.det||detOf(p.name,p.pos);
 const fits=(p,lbl)=>pdet(p).some(d=>ACC[lbl].includes(d));
+const PEN=6;
+const showOvr=()=>S.lineup.A.length>0&&full("A")&&full("B");
+const effOvr=(p,lbl)=>(p.ovr||78)-(fits(p,lbl)?0:PEN);
+function teamOvr(t){const L=slots(t);const v=S.lineup[t].map((pk,i)=>pk==null?null:effOvr(S.pool[pk],L[i])).filter(x=>x!=null);return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):0}
 const POSNAME={GOL:"goleiro",LD:"lateral-direito",LE:"lateral-esquerdo",ZAG:"zagueiro",VOL:"volante",MC:"meio-campo",MEI:"meia",PD:"ponta-direita",PE:"ponta-esquerda",CA:"centroavante"};
 const FIT={GOL:"GOL",LD:"LAT",LE:"LAT",ALA:"LAT",ZAG:"ZAG",VOL:"VOL",MEI:"MEI",MD:"MEI",ME:"MEI",PD:"ATA",PE:"ATA",CA:"ATA",ATA:"ATA"};
-const ALL=(()=>{const m=new Map();SQUADS.forEach(sq=>sq.p.split(",").forEach(e=>{const[name,pos]=e.replace(/^\*/,"").split(":");const k=name+"|"+pos;
- if(!m.has(k))m.set(k,{name,pos,det:detOf(name,pos),tags:[]});const it=m.get(k);if(!it.tags.includes(sq.t))it.tags.push(sq.t)}));return m})();
+const ALL=(()=>{const m=new Map();SQUADS.forEach(sq=>sq.p.split(",").forEach((e,ix)=>{const[name,pos]=e.replace(/^\*/,"").split(":");const k=name+"|"+pos;
+ if(!m.has(k))m.set(k,{name,pos,det:detOf(name,pos),tags:[],ovr:0});const it=m.get(k);if(!it.tags.includes(sq.t))it.tags.push(sq.t);it.ovr=Math.max(it.ovr,ovrAt(sq.id,ix))}));return m})();
 const keyOf=p=>p.name+"|"+p.pos;
 const other=t=>t==="A"?"B":"A";
 const slots=t=>FORMS[S.form[t]].flat();
@@ -424,8 +436,8 @@ const isHost=()=>S.play!=="online"||S.seat==="A";
 
 function buildPool(){
  const m=new Map();
- S.selected.forEach(id=>{const sq=SQUADS.find(s=>s.id===id);sq.p.split(",").filter(e=>e[0]!=="*").forEach(e=>{const [name,pos]=e.split(":");const k=name+"|"+pos;
-  if(!m.has(k))m.set(k,{name,pos,det:detOf(name,pos),tags:[]});const it=m.get(k);if(!it.tags.includes(sq.t))it.tags.push(sq.t)})});
+ S.selected.forEach(id=>{const sq=SQUADS.find(s=>s.id===id);sq.p.split(",").forEach((e,ix)=>{if(e[0]==="*")return;const [name,pos]=e.split(":");const k=name+"|"+pos;
+  if(!m.has(k))m.set(k,{name,pos,det:detOf(name,pos),tags:[],ovr:0});const it=m.get(k);if(!it.tags.includes(sq.t))it.tags.push(sq.t);it.ovr=Math.max(it.ovr,ovrAt(sq.id,ix))})});
  return [...m.values()].sort((a,b)=>POS_ORDER.indexOf(a.pos)-POS_ORDER.indexOf(b.pos)||a.name.localeCompare(b.name,"pt")).map((p,i)=>({...p,i,taken:null}));
 }
 const poolSize=()=>{const k=new Set();S.selected.forEach(id=>SQUADS.find(s=>s.id===id).p.split(",").filter(e=>e[0]!=="*").forEach(e=>k.add(e)));return k.size};
@@ -438,7 +450,7 @@ function turn(){
  if(full(t))t=other(t);
  return t;
 }
-function addToPool(o,extra){let i=S.pool.findIndex(p=>keyOf(p)===keyOf(o));if(i>=0)return i;i=S.pool.length;S.pool.push({name:o.name,pos:o.pos,det:pdet(o),tags:[...o.tags],i,taken:null,...extra});return i}
+function addToPool(o,extra){let i=S.pool.findIndex(p=>keyOf(p)===keyOf(o));if(i>=0)return i;i=S.pool.length;S.pool.push({name:o.name,pos:o.pos,det:pdet(o),tags:[...o.tags],ovr:o.ovr||(ALL.get(keyOf(o))||{}).ovr||78,i,taken:null,...extra});return i}
 function surprisePool(){const inPool=o=>S.pool.some(p=>keyOf(p)===keyOf(o));
  const res=[];S.selected.forEach(id=>SQUADS.find(s=>s.id===id).p.split(",").filter(e=>e[0]==="*").forEach(e=>{const k=e.slice(1).split(":");const o=ALL.get(k[0]+"|"+k[1]);if(o&&!inPool(o)&&!res.includes(o))res.push(o)}));
  if(res.length)return res;
@@ -487,7 +499,7 @@ function startDraft(){S.pool=buildPool();S.lineup={A:slots("A").map(()=>null),B:
  S.vmap={};S.votes={A:0,B:0};S.closed=false;S.cards={A:null,B:null};S.reveal=null;S.cmode=null;S.lastPos={A:null,B:null};S.news=`${S.names[S.first]} começa escolhendo`;S.screen="draft"}
 
 /* robô */
-const bscore=p=>(STARS.has(p.name)?3:1)+Math.random()*1.4;
+const bscore=p=>((p.ovr||80)-70)/6+(STARS.has(p.name)?1:0)+Math.random()*1.4;
 function botCard(t){const c=S.cards[t];if(!c||c.used)return;const o=other(t);
  if(!usable(t))return loseCard(t);
  if(c.id==="goleiro"&&S.lineup[t][0]!==null){const l=gkList();const sc=new Map(l.map(g=>[g,bscore(g)]));return doGoleiro(t,keyOf(l.reduce((a,b)=>sc.get(b)>sc.get(a)?b:a)))}
@@ -632,7 +644,7 @@ async function openMural(focus){
     MUR.status="ready";if(S.screen==="mural")render()},()=>{clearTimeout(tm);MUR.status="error";render()});
   } else {MUR.status="off";render()}
  }catch(e){MUR.status="error";render()}}
-function teamList(t){const L=slots(t);return L.map((lbl,i)=>{const pk=S.lineup[t][i];const p=pk==null?null:S.pool[pk];return p?[lbl,p.name,pdet(p).join("/")]:[lbl,"—",""]})}
+function teamList(t){const L=slots(t);return L.map((lbl,i)=>{const pk=S.lineup[t][i];const p=pk==null?null:S.pool[pk];return p?[lbl,p.name,pdet(p).join("/"),effOvr(p,lbl)]:[lbl,"—","",0]})}
 async function publishMural(){
  if(S.publishedId)return openMural(S.publishedId);
  const id=Math.random().toString(36).slice(2,10);
@@ -652,8 +664,8 @@ function mural(){
  const ents=Object.values(MUR.list).filter(e=>Date.now()-e.at<DAY).sort((a,b)=>(b.id===MUR.focus)-(a.id===MUR.focus)||b.at-a.at);
  const st=MUR.status;
  const card=e=>{const v=MUR.votes[e.id]||{};const c={A:0,B:0};Object.values(v).forEach(x=>{if(c[x]!==undefined)c[x]++});const mine=ME?v[ME]:null;const tot=c.A+c.B;
-  const col=t=>`<div class="mt ${t}"><div class="mt-h"><b>${esc(e.names[t])}</b><small>${esc(e.form[t])}</small></div>
-   <ol>${e.teams[t].map(([l,n,d])=>`<li><span class="ml">${esc(l)}</span><span class="mn">${esc(n)}</span><span class="md">${esc(d)}</span></li>`).join("")}</ol>
+  const col=t=>`<div class="mt ${t}"><div class="mt-h"><b>${esc(e.names[t])}</b><small>${esc(e.form[t])}${(()=>{const v=e.teams[t].map(x=>x[3]).filter(Boolean);return v.length?` · overall ${Math.round(v.reduce((a,b)=>a+b,0)/v.length)}`:""})()}</small></div>
+   <ol>${e.teams[t].map(([l,n,d,ov])=>`<li><span class="ml">${esc(l)}</span><span class="mn">${esc(n)}</span><span class="md">${esc(d)}${ov?` · <b class="mo">${ov}</b>`:""}</span></li>`).join("")}</ol>
    <button class="vbtn ${t} ${mine===t?"mine":""}" data-mvote="${t}" data-id="${e.id}" ${ME?"":"disabled"}><span class="n">${c[t]}</span>${mine===t?"Seu voto":"Votar"}${tot?` · ${Math.round(c[t]*100/tot)}%`:""}</button></div>`;
   return `<article class="panel mcard ${e.id===MUR.focus?"focus":""}">
    <div class="row" style="justify-content:space-between"><h3 class="mh">${esc(e.names.A)} <span>×</span> ${esc(e.names.B)}</h3><span class="label">${leftTxt(e.at)}</span></div>
@@ -799,12 +811,12 @@ function field(t,interactive){
  const swapOn=interactive&&M&&M.type==="troca"&&((M.step===0&&t===M.t)||(M.step===1&&t!==M.t));
  const arr=interactive&&canArrange(t);
  return `<div class="field-wrap ${t}">
-  <div class="field-title"><h3>${esc(S.names[t])}${S.play==="online"&&S.seat===t?` <small class="you">você</small>`:""}</h3>${interactive&&canArrange(t)?`<span class="fsel"><select data-fchange="${t}" aria-label="Formação de ${esc(S.names[t])}">${Object.keys(FORMS).map(f=>`<option ${S.form[t]===f?"selected":""}>${f}</option>`).join("")}</select><span class="label">${count(t)}/11</span></span>`:`<span class="label">${S.form[t]} · ${count(t)}/11</span>`}</div>
+  <div class="field-title"><h3>${esc(S.names[t])}${S.play==="online"&&S.seat===t?` <small class="you">você</small>`:""}${showOvr()?` <span class="tovr">${teamOvr(t)}</span>`:""}</h3>${interactive&&canArrange(t)?`<span class="fsel"><select data-fchange="${t}" aria-label="Formação de ${esc(S.names[t])}">${Object.keys(FORMS).map(f=>`<option ${S.form[t]===f?"selected":""}>${f}</option>`).join("")}</select><span class="label">${count(t)}/11</span></span>`:`<span class="label">${S.form[t]} · ${count(t)}/11</span>`}</div>
   ${interactive?`<div class="hand">${hand(t)}</div>`:""}
   <div class="pitch"><div class="lines">${rows.map(r=>`<div class="lr">${r.map(lbl=>({lbl,i:idx++})).reverse().map(({lbl,i})=>{const pk=S.lineup[t][i];
    if(pk!==null&&pk!==undefined){const p=S.pool[pk];const fr=S.lastFill&&S.lastFill.t===t&&S.lastFill.i===i;
     const ch=M&&M.type==="troca"&&M.step===1&&t===M.t&&M.mine===i;
-    const off=!fits(p,lbl);const inner=`<span class="dot ${off?"off":""}">${esc(initials(p.name))}</span><span class="sn">${esc(p.name)}</span><span class="sp ${off?"off":""}" title="${off?"Jogando improvisado":""}">${pdet(p).join("/")}</span>`;
+    const off=!fits(p,lbl);const ov=showOvr()?`<span class="ov ${off?"off":""}" title="Overall na campanha${off?" (−"+PEN+" improvisado)":""}">${effOvr(p,lbl)}</span>`:"";const inner=`${ov}<span class="dot ${off?"off":""}">${esc(initials(p.name))}</span><span class="sn">${esc(p.name)}</span><span class="sp ${off?"off":""}" title="${off?"Jogando improvisado":""}">${pdet(p).join("/")}</span>`;
     if(swapOn)return `<button class="slot filled swap" data-swap="${i}" data-team="${t}" title="${esc(p.name)}">${inner}</button>`;
     if(arr)return `<button class="slot filled mv ${S.move&&S.move.t===t&&S.move.i===i?"chosen":""} ${fr?"fresh":""}" data-mv="${i}" data-team="${t}" title="Mover ${esc(p.name)}">${inner}</button>`;
     return `<div class="slot filled ${fr?"fresh":""} ${ch?"chosen":""}" title="${esc(p.name)}">${inner}</div>`}
@@ -815,9 +827,9 @@ function field(t,interactive){
 }
 
 function scoreboard(){
- return `<div class="scoreboard"><div class="sb-team A">${esc(S.names.A)}<small>${S.form.A}</small></div>
+ return `<div class="scoreboard"><div class="sb-team A">${esc(S.names.A)}<small>${S.form.A}${showOvr()?` · overall ${teamOvr("A")}`:""}</small></div>
   <div class="sb-mid"><div class="count">${count("A")} × ${count("B")}</div><span class="label">escolhidos</span></div>
-  <div class="sb-team B">${esc(S.names.B)}<small>${S.form.B}</small></div></div>
+  <div class="sb-team B">${esc(S.names.B)}<small>${S.form.B}${showOvr()?` · overall ${teamOvr("B")}`:""}</small></div></div>
   ${S.news?`<div class="news"><span class="label">Última jogada</span> ${esc(S.news)}</div>`:""}`;
 }
 
@@ -834,7 +846,7 @@ function banner(t){
   :`<div class="turn ${p} waiting"><span>${N} tirou uma cartinha surpresa</span><span>Aguardando a carta ser usada…</span></div>`}
  if(S.move){const p=S.pool[S.lineup[S.move.t][S.move.i]];return `<div class="turn ${S.move.t}"><span>Mover ${esc(p.name)}: toque em outra posição do seu campo</span><button class="btn small" data-act="cancelMove">Cancelar</button></div>`}
  if(S.msg){const m=S.msg;S.msg=null;return `<div class="turn ${t}"><span>${esc(m)}</span><span>Escolha um jogador normalmente</span></div>`}
- if(t===null)return `<div class="turn done"><span>Times fechados!</span><button class="btn small ghost" data-act="toVote">Ver os times →</button></div>`;
+ if(t===null)return `<div class="turn done"><span>Times fechados! O overall de cada jogador foi revelado.</span><button class="btn small ghost" data-act="toVote">Ver os times →</button></div>`;
  if(!controls(t))return `<div class="turn ${t} waiting"><span>Vez de ${esc(S.names[t])}</span><span>${isBot(t)?"O robô está pensando…":"Aguardando a escolha…"}</span></div>`;
  const who=S.play==="local"?`Vez de ${esc(S.names[t])}`:"Sua vez";
  return `<div class="turn ${t}"><span>${who} · escolha ${S.picks+1}</span><span>${sel?`${esc(sel.name)} → toque numa posição do campo`:"Toque num jogador da lista"}</span></div>`;
@@ -892,6 +904,7 @@ function vote(){
  return `${scoreboard()}
  <section class="panel" style="display:flex;flex-direction:column;gap:12px">
   <h2 style="font-size:30px;text-transform:uppercase">Qual time ganharia?</h2>
+  ${showOvr()?(()=>{const a=teamOvr("A"),b=teamOvr("B");return `<p class="ovrline">Pelo overall: <b>${esc(S.names.A)} ${a}</b> × <b>${b} ${esc(S.names.B)}</b>${a===b?" · empate técnico":` · vantagem de ${esc(S.names[a>b?"A":"B"])}`}</p>`})():""}
   <p class="note">${on?"Cada pessoa com o jogo aberto vota uma vez. Dá para mudar o voto até encerrar.":"Cada amigo toca uma vez no time que acha melhor."}</p>
   ${S.closed?res:`<div class="vote">${["A","B"].map(t=>`<button class="vbtn ${t} ${mine===t?"mine":""}" data-vote="${t}" ${on&&!ME?"disabled":""}><span class="n">${V[t]}</span>${mine===t?"Seu voto: ":"+1 para "}${esc(S.names[t])}</button>`).join("")}</div>
   <div class="row">${canClose?`<button class="btn" data-act="close" ${V.A+V.B?"":"disabled"}>Encerrar votação</button>`:`<span class="note">${esc(S.names.A)} encerra a votação.</span>`}${on?"":`<button class="btn ghost small" data-act="zero">Zerar votos</button>`}</div>`}
