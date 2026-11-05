@@ -12,3 +12,6 @@ Tira-time de futebol com os titulares das finais que valeram taça (Copa do Mund
 - No 5º jogador, cada time tira uma cartinha surpresa e usa na hora: Troca, Jogador surpresa, Goleiro ou Mesma posição.
 - Dá para trocar a formação (16 opções) e mudar jogadores de posição a qualquer momento da escolha.
 - No fim, todo mundo vota em qual time ganharia.
+- Posições detalhadas (laterais, pontas, centroavante...), com todas as posições de quem joga em mais de uma.
+- Mural de votação: publique os dois times por 24 horas para qualquer pessoa votar.
+- 102 campeões, com todos os Brasileirões e Champions desde 1990.

@@ -202,6 +202,26 @@ h2{background:var(--gold-grad);-webkit-background-clip:text;background-clip:text
 .fsel{display:inline-flex;gap:8px;align-items:center}
 .fsel select{background:var(--bg);color:var(--chalk);border:1px solid var(--slate);border-radius:6px;padding:4px 6px;font:inherit;font-size:13px;font-weight:700}
 .slot.mv .dot{cursor:grab}
+.slot .sp{font-size:9.5px;font-weight:800;letter-spacing:.06em;color:var(--muted);text-shadow:0 1px 2px #000;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.slot .sp.off{color:var(--warn)}
+.slot.filled .dot.off{box-shadow:0 0 0 3px var(--warn)}
+.legend{margin:10px 0 0;font-size:11.5px;color:var(--muted)}
+.mcard{display:flex;flex-direction:column;gap:10px}
+.mcard.focus{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
+.mh{font-size:22px;text-transform:uppercase;color:var(--white)} .mh span{color:var(--gold)}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:560px){.mgrid{grid-template-columns:1fr}}
+.mt{display:flex;flex-direction:column;gap:8px;min-width:0;border:1px solid var(--line);border-radius:10px;padding:10px}
+.mt.A{border-color:rgba(212,175,55,.6)}
+.mt-h{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.mt-h b{font-weight:800;font-style:italic;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mt-h small{color:var(--muted)}
+.mt ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:3px}
+.mt li{display:grid;grid-template-columns:34px 1fr auto;gap:6px;font-size:13px;align-items:baseline}
+.ml{font-size:10px;font-weight:800;color:var(--gold);letter-spacing:.05em}
+.mn{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.md{font-size:10px;color:var(--muted);font-weight:700}
+.pl .pos{min-width:26px;text-align:center}
 
 </style>
 
@@ -217,7 +237,7 @@ const SQUADS=[
  {id:"bra94",c:["copa"],n:"Brasil 1994",t:"BRA 94",p:"Taffarel:GOL,Jorginho:LAT,Branco:LAT,Aldair:ZAG,Márcio Santos:ZAG,Mauro Silva:VOL,Dunga:VOL,Mazinho:VOL,Zinho:MEI,Bebeto:ATA,Romário:ATA,*Cafu:LAT,*Viola:ATA"},
  {id:"bra02",c:["copa"],n:"Brasil 2002",t:"BRA 02",p:"Marcos:GOL,Cafu:LAT,Roberto Carlos:LAT,Lúcio:ZAG,Edmílson:ZAG,Roque Júnior:ZAG,Gilberto Silva:VOL,Kléberson:VOL,Ronaldinho:MEI,Rivaldo:MEI,Ronaldo:ATA,*Juninho Paulista:MEI,*Denílson:ATA"},
  {id:"esp10",c:["copa"],n:"Espanha 2010",t:"ESP 10",p:"Casillas:GOL,Capdevila:LAT,Sergio Ramos:ZAG,Piqué:ZAG,Puyol:ZAG,Busquets:VOL,Xabi Alonso:VOL,Xavi:MEI,Iniesta:MEI,Pedro:ATA,David Villa:ATA,*Fàbregas:MEI,*Jesús Navas:ATA,*Fernando Torres:ATA"},
- {id:"ale14",c:["copa"],n:"Alemanha 2014",t:"ALE 14",p:"Neuer:GOL,Lahm:LAT,Höwedes:LAT,Boateng:ZAG,Hummels:ZAG,Schweinsteiger:VOL,Kramer:VOL,Kroos:MEI,Özil:MEI,Müller:ATA,Klose:ATA,*Schürrle:ATA,*Mertesacker:ZAG,*Götze:MEI"},
+ {id:"ale14",c:["copa"],n:"Alemanha 2014",t:"ALE 14",p:"Neuer:GOL,Lahm:LAT,Höwedes:LAT,Boateng:ZAG,Hummels:ZAG,Schweinsteiger:VOL,Kramer:VOL,Kroos:MEI,Özil:MEI,Thomas Müller:ATA,Klose:ATA,*Schürrle:ATA,*Mertesacker:ZAG,*Götze:MEI"},
  {id:"fra18",c:["copa"],n:"França 2018",t:"FRA 18",p:"Lloris:GOL,Pavard:LAT,Lucas Hernández:LAT,Varane:ZAG,Umtiti:ZAG,Kanté:VOL,Pogba:VOL,Matuidi:MEI,Griezmann:ATA,Mbappé:ATA,Giroud:ATA,*N'Zonzi:VOL,*Tolisso:VOL,*Fekir:MEI"},
  {id:"arg22",c:["copa"],n:"Argentina 2022",t:"ARG 22",p:"Emiliano Martínez:GOL,Molina:LAT,Tagliafico:LAT,Cristian Romero:ZAG,Otamendi:ZAG,Enzo Fernández:VOL,De Paul:MEI,Mac Allister:MEI,Messi:ATA,Di María:ATA,Julián Álvarez:ATA,*Acuña:LAT,*Montiel:LAT,*Paredes:VOL,*Lautaro Martínez:ATA,*Pezzella:ZAG,*Dybala:ATA"},
 
@@ -245,7 +265,7 @@ const SQUADS=[
  {id:"bar09",c:["champions"],n:"Barcelona 2009",t:"BAR 09",p:"Valdés:GOL,Sylvinho:LAT,Puyol:ZAG,Piqué:ZAG,Yaya Touré:VOL,Busquets:VOL,Xavi:MEI,Iniesta:MEI,Messi:ATA,Eto'o:ATA,Henry:ATA,*Keita:VOL,*Pedro:ATA"},
  {id:"rea17",c:["champions"],n:"Real Madrid 2017",t:"REA 17",p:"Keylor Navas:GOL,Carvajal:LAT,Marcelo:LAT,Sergio Ramos:ZAG,Varane:ZAG,Casemiro:VOL,Kroos:MEI,Modric:MEI,Isco:MEI,Cristiano Ronaldo:ATA,Benzema:ATA,*Bale:ATA,*Asensio:MEI,*Morata:ATA"},
  {id:"liv19",c:["champions"],n:"Liverpool 2019",t:"LIV 19",p:"Alisson:GOL,Alexander-Arnold:LAT,Robertson:LAT,Matip:ZAG,Van Dijk:ZAG,Fabinho:VOL,Henderson:VOL,Wijnaldum:MEI,Salah:ATA,Mané:ATA,Firmino:ATA,*Origi:ATA,*Milner:MEI,*Joe Gomez:ZAG"},
- {id:"bay20",c:["champions"],n:"Bayern 2020",t:"BAY 20",p:"Neuer:GOL,Davies:LAT,Boateng:ZAG,Alaba:ZAG,Kimmich:VOL,Goretzka:VOL,Thiago Alcântara:MEI,Müller:ATA,Gnabry:ATA,Coman:ATA,Lewandowski:ATA,*Süle:ZAG,*Coutinho:MEI,*Perišić:ATA,*Tolisso:VOL"},
+ {id:"bay20",c:["champions"],n:"Bayern 2020",t:"BAY 20",p:"Neuer:GOL,Davies:LAT,Boateng:ZAG,Alaba:ZAG,Kimmich:VOL,Goretzka:VOL,Thiago Alcântara:MEI,Thomas Müller:ATA,Gnabry:ATA,Coman:ATA,Lewandowski:ATA,*Süle:ZAG,*Coutinho:MEI,*Perišić:ATA,*Tolisso:VOL"},
  {id:"city23",c:["champions"],n:"Manchester City 2023",t:"MCI 23",p:"Ederson:GOL,Akanji:ZAG,Rúben Dias:ZAG,Aké:ZAG,Stones:ZAG,Rodri:VOL,Bernardo Silva:MEI,De Bruyne:MEI,Gündoğan:MEI,Grealish:ATA,Haaland:ATA,*Walker:LAT,*Foden:MEI"}
 ,
  {id:"bra58",c:["copa"],n:"Brasil 1958",t:"BRA 58",p:"Gilmar:GOL,Djalma Santos:LAT,Nílton Santos:LAT,Bellini:ZAG,Orlando:ZAG,Zito:VOL,Didi:MEI,Garrincha:ATA,Vavá:ATA,Pelé:ATA,Zagallo:ATA"},
@@ -260,7 +280,7 @@ const SQUADS=[
  {id:"fla22",c:["liberta"],n:"Flamengo 2022",t:"FLA 22",p:"Santos:GOL,Rodinei:LAT,Filipe Luís:LAT,David Luiz:ZAG,Léo Pereira:ZAG,Thiago Maia:VOL,João Gomes:VOL,Everton Ribeiro:MEI,Arrascaeta:MEI,Gabigol:ATA,Pedro (FLA):ATA,*Pulgar:VOL,*Vidal:VOL,*Matheuzinho:LAT,*Marinho:ATA"},
 
  {id:"fla81",c:["mundial"],n:"Flamengo 1981",t:"FLA 81",p:"Raul:GOL,Leandro (FLA):LAT,Júnior (FLA):LAT,Marinho (FLA):ZAG,Mozer:ZAG,Andrade:VOL,Adílio:MEI,Zico:MEI,Tita:ATA,Nunes:ATA,Lico:ATA"},
- {id:"spfc92m",c:["mundial"],n:"São Paulo 1992 (Mundial)",t:"SAO 92",p:"Zetti:GOL,Vítor:LAT,Ronaldo Luís:LAT,Adílson:ZAG,Ronaldão:ZAG,Pintado:VOL,Toninho Cerezo:VOL,Raí:MEI,Cafu:LAT,Palhinha:ATA,Müller:ATA"},
+ {id:"spfc92m",c:["mundial"],n:"São Paulo 1992 (Mundial)",t:"SAO 92",p:"Zetti:GOL,Vítor:LAT,Ronaldo Luís:LAT,Adílson:VOL,Ronaldão:ZAG,Pintado:VOL,Toninho Cerezo:VOL,Raí:MEI,Cafu:LAT,Palhinha:ATA,Müller:ATA"},
 
  {id:"pal16",c:["brasil"],n:"Palmeiras 2016",t:"PAL 16",p:"Jailson:GOL,Jean:LAT,Zé Roberto:LAT,Mina:ZAG,Vitor Hugo:ZAG,Thiago Santos:VOL,Tchê Tchê:VOL,Moisés:MEI,Dudu:ATA,Roger Guedes:ATA,Gabriel Jesus:ATA,*Cleiton Xavier:MEI,*Alecsandro:ATA"},
  {id:"cam21",c:["brasil"],n:"Atlético-MG 2021",t:"CAM 21",p:"Everson:GOL,Mariano:LAT,Guilherme Arana:LAT,Nathan Silva:ZAG,Junior Alonso:ZAG,Allan:VOL,Jair:VOL,Zaracho:MEI,Nacho Fernández:MEI,Keno:ATA,Hulk:ATA,*Vargas:ATA,*Diego Costa:ATA,*Savarino:ATA"},
@@ -271,10 +291,60 @@ const SQUADS=[
  {id:"mun08",c:["champions"],n:"Manchester United 2008",t:"MUN 08",p:"Van der Sar:GOL,Wes Brown:LAT,Evra:LAT,Ferdinand:ZAG,Vidić:ZAG,Hargreaves:VOL,Carrick:VOL,Scholes:MEI,Cristiano Ronaldo:ATA,Rooney:ATA,Tevez:ATA,*Anderson:MEI,*Giggs:MEI,*Nani:ATA"},
  {id:"int10",c:["champions"],n:"Inter de Milão 2010",t:"INT 10",p:"Júlio César:GOL,Maicon:LAT,Chivu:LAT,Lúcio:ZAG,Samuel:ZAG,Zanetti:VOL,Cambiasso:VOL,Sneijder:MEI,Eto'o:ATA,Pandev:ATA,Milito:ATA,*Stanković:MEI,*Materazzi:ZAG"},
  {id:"che12",c:["champions"],n:"Chelsea 2012",t:"CHE 12",p:"Čech:GOL,Bosingwa:LAT,Ashley Cole:LAT,Cahill:ZAG,David Luiz:ZAG,Mikel:VOL,Lampard:MEI,Mata:MEI,Kalou:ATA,Bertrand:LAT,Drogba:ATA,*Malouda:MEI,*Fernando Torres:ATA"},
- {id:"bay13",c:["champions"],n:"Bayern 2013",t:"BAY 13",p:"Neuer:GOL,Lahm:LAT,Alaba:LAT,Boateng:ZAG,Dante:ZAG,Javi Martínez:VOL,Schweinsteiger:VOL,Müller:MEI,Robben:ATA,Ribéry:ATA,Mandžukić:ATA,*Mario Gómez:ATA,*Luiz Gustavo:VOL"},
+ {id:"bay13",c:["champions"],n:"Bayern 2013",t:"BAY 13",p:"Neuer:GOL,Lahm:LAT,Alaba:ZAG,Boateng:ZAG,Dante:ZAG,Javi Martínez:VOL,Schweinsteiger:VOL,Thomas Müller:ATA,Robben:ATA,Ribéry:ATA,Mandžukić:ATA,*Mario Gómez:ATA,*Luiz Gustavo:VOL"},
  {id:"bar15",c:["champions"],n:"Barcelona 2015",t:"BAR 15",p:"Ter Stegen:GOL,Dani Alves:LAT,Jordi Alba:LAT,Piqué:ZAG,Mascherano:ZAG,Busquets:VOL,Rakitić:MEI,Iniesta:MEI,Messi:ATA,Luis Suárez:ATA,Neymar:ATA,*Xavi:MEI,*Mathieu:ZAG,*Pedro:ATA"},
  {id:"rea22",c:["champions"],n:"Real Madrid 2022",t:"REA 22",p:"Courtois:GOL,Carvajal:LAT,Ferland Mendy:LAT,Militão:ZAG,Alaba:ZAG,Casemiro:VOL,Kroos:MEI,Modric:MEI,Valverde:MEI,Vinícius Júnior:ATA,Benzema:ATA,*Camavinga:VOL,*Rodrygo:ATA,*Ceballos:MEI"},
  {id:"rea24",c:["champions"],n:"Real Madrid 2024",t:"REA 24",p:"Courtois:GOL,Carvajal:LAT,Ferland Mendy:LAT,Rüdiger:ZAG,Nacho:ZAG,Kroos:MEI,Camavinga:VOL,Valverde:MEI,Bellingham:MEI,Vinícius Júnior:ATA,Rodrygo:ATA,*Modric:MEI,*Joselu:ATA,*Militão:ZAG"}
+,
+ {id:"cor90",c:["brasil"],n:"Corinthians 1990",t:"COR 90",p:"Ronaldo Giovanelli:GOL,Giba:LAT,Jacenir:LAT,Marcelo Djian:ZAG,Guinei:ZAG,Márcio Bittencourt:VOL,Wilson Mano:VOL,Neto:MEI,Tupãzinho:ATA,Fabinho (COR):ATA,Mauro (COR):ATA"},
+ {id:"sao91",c:["brasil"],n:"São Paulo 1991",t:"SAO 91",p:"Zetti:GOL,Cafu:LAT,Leonardo:LAT,Antônio Carlos Zago:ZAG,Ricardo Rocha:ZAG,Bernardo:VOL,Raí:MEI,Elivélton:ATA,Mário Tilico:ATA,Müller:ATA,Macedo:ATA"},
+ {id:"fla92",c:["brasil"],n:"Flamengo 1992",t:"FLA 92",p:"Gilmar Rinaldi:GOL,Charles Guerreiro:LAT,Piá:LAT,Wilson Gottardo:ZAG,Júnior Baiano:ZAG,Uidemar:VOL,Júnior (FLA):LAT,Zinho:MEI,Nélio:MEI,Gaúcho:ATA,Paulo Nunes:ATA"},
+ {id:"pal93",c:["brasil"],n:"Palmeiras 1993",t:"PAL 93",p:"Sérgio:GOL,Gil Baiano:LAT,Roberto Carlos:LAT,Antônio Carlos Zago:ZAG,Cléber:ZAG,César Sampaio:VOL,Mazinho:VOL,Zinho:MEI,Edílson:ATA,Edmundo:ATA,Evair:ATA"},
+ {id:"pal94",c:["brasil"],n:"Palmeiras 1994",t:"PAL 94",p:"Velloso:GOL,Cláudio:LAT,Roberto Carlos:LAT,Antônio Carlos Zago:ZAG,Cléber:ZAG,César Sampaio:VOL,Flávio Conceição:VOL,Rivaldo:MEI,Zinho:MEI,Edmundo:ATA,Evair:ATA"},
+ {id:"bot95",c:["brasil"],n:"Botafogo 1995",t:"BOT 95",p:"Wágner:GOL,Wilson Goiano:LAT,André Silva:LAT,Gonçalves:ZAG,Wilson Gottardo:ZAG,Jamir:VOL,Leandro Ávila:VOL,Beto:MEI,Sérgio Manoel:MEI,Donizete:ATA,Túlio:ATA"},
+ {id:"gre96",c:["brasil"],n:"Grêmio 1996",t:"GRE 96",p:"Danrlei:GOL,Arce:LAT,Roger:LAT,Rivarola:ZAG,Adílson Batista:ZAG,Dinho:VOL,Goiano:VOL,Carlos Miguel:MEI,Aílton:MEI,Paulo Nunes:ATA,Zé Alcino:ATA"},
+ {id:"vas97",c:["brasil"],n:"Vasco 1997",t:"VAS 97",p:"Carlos Germano:GOL,Maricá:LAT,Felipe:LAT,Odvan:ZAG,Mauro Galvão:ZAG,Luisinho:VOL,Nasa:VOL,Ramon:MEI,Juninho Pernambucano:MEI,Edmundo:ATA,Evair:ATA"},
+ {id:"cor98",c:["brasil"],n:"Corinthians 1998",t:"COR 98",p:"Nei:GOL,Índio (COR):LAT,Sylvinho:LAT,Batata:ZAG,Gamarra:ZAG,Rincón:VOL,Vampeta:VOL,Ricardinho:MEI,Marcelinho Carioca:MEI,Edílson:ATA,Mirandinha:ATA"},
+ {id:"cor99",c:["brasil"],n:"Corinthians 1999",t:"COR 99",p:"Dida:GOL,Índio (COR):LAT,Kléber:LAT,Márcio Costa:ZAG,Adílson Batista:ZAG,Rincón:VOL,Vampeta:VOL,Ricardinho:MEI,Marcelinho Carioca:MEI,Edílson:ATA,Luizão:ATA"},
+ {id:"vas00",c:["brasil"],n:"Vasco 2000",t:"VAS 00",p:"Helton:GOL,Clébson:LAT,Jorginho Paulista:LAT,Odvan:ZAG,Júnior Baiano:ZAG,Nasa:VOL,Paulo Miranda:VOL,Juninho Pernambucano:MEI,Juninho Paulista:MEI,Euller:ATA,Romário:ATA"},
+ {id:"cap01",c:["brasil"],n:"Athletico-PR 2001",t:"CAP 01",p:"Flávio:GOL,Alessandro:LAT,Fabiano:LAT,Nem:ZAG,Gustavo:ZAG,Cocito:VOL,Kléberson:VOL,Adriano Gabiru:MEI,Kléber (CAP):MEI,Alex Mineiro:ATA,Kléber Pereira:ATA"},
+ {id:"san02",c:["brasil"],n:"Santos 2002",t:"SAN 02",p:"Fábio Costa:GOL,Maurinho:LAT,Léo:LAT,André Luís:ZAG,Alex (SAN):ZAG,Paulo Almeida:VOL,Renato:VOL,Elano:MEI,Diego:MEI,Robinho:ATA,Alberto:ATA"},
+ {id:"san04",c:["brasil"],n:"Santos 2004",t:"SAN 04",p:"Mauro:GOL,Paulo César:LAT,Léo:LAT,André Luís:ZAG,Domingos:ZAG,Paulo Almeida:VOL,Elano:MEI,Ricardinho:MEI,Deivid:ATA,Robinho:ATA,Basílio:ATA"},
+ {id:"cor05",c:["brasil"],n:"Corinthians 2005",t:"COR 05",p:"Fábio Costa:GOL,Coelho:LAT,Gustavo Nery:LAT,Betão:ZAG,Marinho (COR):ZAG,Marcelo Mattos:VOL,Rosinei:VOL,Carlos Alberto:MEI,Roger (COR):MEI,Tevez:ATA,Nilmar:ATA"},
+ {id:"sao06",c:["brasil"],n:"São Paulo 2006",t:"SAO 06",p:"Rogério Ceni:GOL,Souza:LAT,Júnior:LAT,Fabão:ZAG,Alex Silva:ZAG,Edcarlos:ZAG,Mineiro:VOL,Josué:VOL,Danilo Gabriel:MEI,Aloísio:ATA,Leandro (SAO):ATA"},
+ {id:"sao07",c:["brasil"],n:"São Paulo 2007",t:"SAO 07",p:"Rogério Ceni:GOL,Souza:LAT,Jorge Wagner:LAT,Breno:ZAG,Miranda:ZAG,Alex Silva:ZAG,Richarlyson:LAT,Hernanes:VOL,Hugo:MEI,Dagoberto:ATA,Borges:ATA"},
+ {id:"sao08",c:["brasil"],n:"São Paulo 2008",t:"SAO 08",p:"Rogério Ceni:GOL,Joílson:LAT,Jorge Wagner:LAT,André Dias:ZAG,Rodrigo (SAO):ZAG,Miranda:ZAG,Jean:LAT,Hernanes:VOL,Hugo:MEI,Dagoberto:ATA,Borges:ATA"},
+ {id:"fla09",c:["brasil"],n:"Flamengo 2009",t:"FLA 09",p:"Bruno (FLA):GOL,Léo Moura:LAT,Juan:LAT,Ronaldo Angelim:ZAG,Álvaro:ZAG,Airton:VOL,Willians:VOL,Toró:VOL,Kléberson:VOL,Petković:MEI,Adriano Imperador:ATA"},
+ {id:"flu10",c:["brasil"],n:"Fluminense 2010",t:"FLU 10",p:"Ricardo Berna:GOL,Mariano:LAT,Carlinhos:LAT,Gum:ZAG,Leandro Euzébio:ZAG,Diguinho:VOL,Valencia:VOL,Conca:MEI,Marquinho:MEI,Emerson Sheik:ATA,Fred:ATA"},
+ {id:"cor11",c:["brasil"],n:"Corinthians 2011",t:"COR 11",p:"Júlio César (COR):GOL,Alessandro:LAT,Fábio Santos:LAT,Chicão:ZAG,Leandro Castán:ZAG,Ralf:VOL,Paulinho:VOL,Danilo Gabriel:MEI,Alex Raphael:MEI,Emerson Sheik:ATA,Liedson:ATA"},
+ {id:"flu12",c:["brasil"],n:"Fluminense 2012",t:"FLU 12",p:"Diego Cavalieri:GOL,Bruno (FLU):LAT,Carlinhos:LAT,Gum:ZAG,Leandro Euzébio:ZAG,Edinho:VOL,Jean:LAT,Deco:MEI,Thiago Neves:MEI,Wellington Nem:ATA,Fred:ATA"},
+ {id:"cru13",c:["brasil"],n:"Cruzeiro 2013",t:"CRU 13",p:"Fábio:GOL,Mayke:LAT,Egídio:LAT,Dedé:ZAG,Bruno Rodrigo:ZAG,Nílton:VOL,Lucas Silva:VOL,Everton Ribeiro:MEI,Ricardo Goulart:MEI,Willian:ATA,Borges:ATA"},
+ {id:"cru14",c:["brasil"],n:"Cruzeiro 2014",t:"CRU 14",p:"Fábio:GOL,Mayke:LAT,Egídio:LAT,Léo (CRU):ZAG,Manoel:ZAG,Henrique:VOL,Lucas Silva:VOL,Everton Ribeiro:MEI,Ricardo Goulart:MEI,Marquinhos (CRU):ATA,Marcelo Moreno:ATA"},
+ {id:"cor17",c:["brasil"],n:"Corinthians 2017",t:"COR 17",p:"Cássio:GOL,Fagner:LAT,Guilherme Arana:LAT,Pablo:ZAG,Balbuena:ZAG,Gabriel:VOL,Maycon:VOL,Rodriguinho:MEI,Jadson:MEI,Romero:ATA,Jô:ATA"},
+ {id:"fla20",c:["brasil"],n:"Flamengo 2020",t:"FLA 20",p:"Diego Alves:GOL,Isla:LAT,Filipe Luís:LAT,Rodrigo Caio:ZAG,Gustavo Henrique:ZAG,Willian Arão:VOL,Gerson:VOL,Everton Ribeiro:MEI,Arrascaeta:MEI,Bruno Henrique:ATA,Gabigol:ATA"},
+ {id:"pal22",c:["brasil"],n:"Palmeiras 2022",t:"PAL 22",p:"Weverton:GOL,Marcos Rocha:LAT,Piquerez:LAT,Gustavo Gómez:ZAG,Murilo:ZAG,Danilo:VOL,Zé Rafael:VOL,Gustavo Scarpa:MEI,Raphael Veiga:MEI,Dudu:ATA,Rony:ATA"},
+ {id:"fla25",c:["brasil"],n:"Flamengo 2025",t:"FLA 25",p:"Rossi:GOL,Varela:LAT,Alex Sandro:LAT,Léo Ortiz:ZAG,Léo Pereira:ZAG,Jorginho (ITA):VOL,Pulgar:VOL,Arrascaeta:MEI,Carrascal:MEI,Bruno Henrique:ATA,Pedro (FLA):ATA"},
+ {id:"mil90",c:["champions"],n:"Milan 1990",t:"MIL 90",p:"Giovanni Galli:GOL,Tassotti:LAT,Maldini:ZAG,Costacurta:ZAG,Baresi:ZAG,Rijkaard:VOL,Colombo:MEI,Ancelotti:VOL,Evani:MEI,Gullit:ATA,Van Basten:ATA,*Massaro:ATA"},
+ {id:"est91",c:["champions"],n:"Estrela Vermelha 1991",t:"EST 91",p:"Stojanović:GOL,Marović:LAT,Belodedić:ZAG,Najdoski:ZAG,Šabanadžović:VOL,Jugović:MEI,Binić:ATA,Prosinečki:MEI,Mihajlović:LAT,Savićević:ATA,Pančev:ATA,*Stošić:MEI"},
+ {id:"bar92",c:["champions"],n:"Barcelona 1992",t:"BAR 92",p:"Zubizarreta:GOL,Nando:ZAG,Ferrer:LAT,Koeman:ZAG,Juan Carlos:LAT,Guardiola:VOL,Bakero:MEI,Eusebio:MEI,Laudrup:MEI,Stoichkov:ATA,Salinas:ATA,*Goikoetxea:ATA,*Alexanko:ZAG"},
+ {id:"mar93",c:["champions"],n:"Olympique de Marseille 1993",t:"MAR 93",p:"Barthez:GOL,Angloma:LAT,Di Meco:LAT,Boli:ZAG,Desailly:ZAG,Deschamps:VOL,Eydelie:VOL,Sauzée:MEI,Abedi Pelé:MEI,Bokšić:ATA,Völler:ATA,*Durand:MEI"},
+ {id:"mil94",c:["champions"],n:"Milan 1994",t:"MIL 94",p:"Sebastiano Rossi:GOL,Tassotti:LAT,Panucci:LAT,Filippo Galli:ZAG,Maldini:ZAG,Desailly:ZAG,Albertini:VOL,Donadoni:MEI,Boban:MEI,Savićević:ATA,Massaro:ATA,*Nava:ZAG"},
+ {id:"aja95",c:["champions"],n:"Ajax 1995",t:"AJA 95",p:"Van der Sar:GOL,Reiziger:LAT,Frank de Boer:LAT,Blind:ZAG,Rijkaard:VOL,Davids:VOL,Seedorf:MEI,Ronald de Boer:MEI,Finidi:ATA,Litmanen:ATA,Overmars:ATA,*Kanu:ATA,*Kluivert:ATA"},
+ {id:"juv96",c:["champions"],n:"Juventus 1996",t:"JUV 96",p:"Peruzzi:GOL,Torricelli:LAT,Pessotto:LAT,Ferrara:ZAG,Vierchowod:ZAG,Paulo Sousa:VOL,Deschamps:VOL,Conte:MEI,Del Piero:ATA,Vialli:ATA,Ravanelli:ATA,*Jugović:MEI,*Di Livio:MEI,*Padovano:ATA"},
+ {id:"bvb97",c:["champions"],n:"Borussia Dortmund 1997",t:"BVB 97",p:"Klos:GOL,Reuter:LAT,Heinrich:LAT,Kohler:ZAG,Sammer:ZAG,Kree:ZAG,Lambert:VOL,Paulo Sousa:VOL,Möller:MEI,Chapuisat:ATA,Riedle:ATA,*Ricken:MEI,*Zorc:MEI,*Herrlich:ATA"},
+ {id:"rea98",c:["champions"],n:"Real Madrid 1998",t:"REA 98",p:"Illgner:GOL,Panucci:LAT,Roberto Carlos:LAT,Hierro:ZAG,Sanchís:ZAG,Redondo:VOL,Karembeu:MEI,Seedorf:MEI,Raúl:ATA,Mijatović:ATA,Morientes:ATA,*Jaime:LAT,*Amavisca:MEI,*Šuker:ATA"},
+ {id:"mun99",c:["champions"],n:"Manchester United 1999",t:"MUN 99",p:"Schmeichel:GOL,Gary Neville:LAT,Irwin:LAT,Johnsen:ZAG,Stam:ZAG,Butt:VOL,Beckham:MEI,Giggs:MEI,Blomqvist:MEI,Andy Cole:ATA,Yorke:ATA,*Sheringham:ATA,*Solskjær:ATA"},
+ {id:"rea00",c:["champions"],n:"Real Madrid 2000",t:"REA 00",p:"Casillas:GOL,Míchel Salgado:LAT,Roberto Carlos:LAT,Karanka:ZAG,Iván Campo:ZAG,Helguera:ZAG,Redondo:VOL,McManaman:MEI,Raúl:ATA,Anelka:ATA,Morientes:ATA,*Hierro:ZAG,*Sanchís:ZAG,*Savio:ATA"},
+ {id:"bay01",c:["champions"],n:"Bayern 2001",t:"BAY 01",p:"Kahn:GOL,Sagnol:LAT,Lizarazu:LAT,Andersson:ZAG,Kuffour:ZAG,Effenberg:VOL,Hargreaves:VOL,Scholl:MEI,Salihamidžić:MEI,Élber:ATA,Jancker:ATA,*Zickler:ATA,*Paulo Sérgio:ATA"},
+ {id:"mil03",c:["champions"],n:"Milan 2003",t:"MIL 03",p:"Dida:GOL,Costacurta:ZAG,Kaladze:ZAG,Nesta:ZAG,Maldini:ZAG,Gattuso:VOL,Pirlo:VOL,Seedorf:MEI,Rui Costa:MEI,Shevchenko:ATA,Inzaghi:ATA,*Roque Júnior:ZAG,*Ambrosini:VOL,*Serginho:LAT"},
+ {id:"por04",c:["champions"],n:"Porto 2004",t:"POR 04",p:"Vítor Baía:GOL,Paulo Ferreira:LAT,Nuno Valente:LAT,Jorge Costa:ZAG,Ricardo Carvalho:ZAG,Costinha:VOL,Maniche:MEI,Pedro Mendes:MEI,Deco:MEI,Carlos Alberto:MEI,Derlei:ATA,*Alenichev:MEI,*Pedro Emanuel:ZAG,*McCarthy:ATA"},
+ {id:"bar06",c:["champions"],n:"Barcelona 2006",t:"BAR 06",p:"Valdés:GOL,Oleguer:LAT,Van Bronckhorst:LAT,Márquez:ZAG,Puyol:ZAG,Edmílson:ZAG,Van Bommel:VOL,Deco:MEI,Giuly:ATA,Eto'o:ATA,Ronaldinho:MEI,*Iniesta:MEI,*Larsson:ATA,*Belletti:LAT"},
+ {id:"bar11c",c:["champions"],n:"Barcelona 2011 (Champions)",t:"BAR 11",p:"Valdés:GOL,Dani Alves:LAT,Abidal:LAT,Piqué:ZAG,Mascherano:ZAG,Busquets:VOL,Xavi:MEI,Iniesta:MEI,Messi:ATA,Pedro:ATA,David Villa:ATA,*Puyol:ZAG,*Keita:VOL,*Afellay:MEI"},
+ {id:"rea14c",c:["champions"],n:"Real Madrid 2014 (Champions)",t:"REA 14",p:"Casillas:GOL,Carvajal:LAT,Coentrão:LAT,Varane:ZAG,Sergio Ramos:ZAG,Khedira:VOL,Modric:MEI,Di María:ATA,Bale:ATA,Benzema:ATA,Cristiano Ronaldo:ATA,*Marcelo:LAT,*Isco:MEI,*Morata:ATA"},
+ {id:"rea16",c:["champions"],n:"Real Madrid 2016",t:"REA 16",p:"Keylor Navas:GOL,Carvajal:LAT,Marcelo:LAT,Pepe:ZAG,Sergio Ramos:ZAG,Casemiro:VOL,Modric:MEI,Kroos:MEI,Bale:ATA,Benzema:ATA,Cristiano Ronaldo:ATA,*Danilo:LAT,*Isco:MEI,*Lucas Vázquez:ATA"},
+ {id:"rea18",c:["champions"],n:"Real Madrid 2018",t:"REA 18",p:"Keylor Navas:GOL,Carvajal:LAT,Marcelo:LAT,Varane:ZAG,Sergio Ramos:ZAG,Casemiro:VOL,Modric:MEI,Kroos:MEI,Isco:MEI,Benzema:ATA,Cristiano Ronaldo:ATA,*Nacho:ZAG,*Bale:ATA,*Asensio:MEI"},
+ {id:"che21c",c:["champions"],n:"Chelsea 2021 (Champions)",t:"CHE 21",p:"Édouard Mendy:GOL,Reece James:LAT,Chilwell:LAT,Azpilicueta:ZAG,Thiago Silva:ZAG,Rüdiger:ZAG,Kanté:VOL,Jorginho (ITA):VOL,Mount:MEI,Havertz:ATA,Werner:ATA,*Christensen:ZAG,*Pulisic:ATA,*Kovačić:VOL"},
+ {id:"psg25",c:["champions"],n:"PSG 2025",t:"PSG 25",p:"Donnarumma:GOL,Hakimi:LAT,Nuno Mendes:LAT,Marquinhos:ZAG,Pacho:ZAG,Vitinha:VOL,João Neves:MEI,Fabián Ruiz:MEI,Doué:ATA,Dembélé:ATA,Kvaratskhelia:ATA,*Barcola:ATA,*Mayulu:MEI,*Zaïre-Emery:MEI,*Gonçalo Ramos:ATA"}
 ];
 const FORMS={
  "4-3-3":[["GOL"],["LD","ZAG","ZAG","LE"],["VOL","MEI","MEI"],["PD","CA","PE"]],
@@ -299,6 +369,7 @@ const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"
 const initials=n=>{const w=n.replace(/[^\p{L}\s'-]/gu,"").split(/\s+/).filter(Boolean);return (w.length>1?w[0][0]+w[w.length-1][0]:w[0].slice(0,2)).toUpperCase()};
 
 const ICON={
+ mural:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg>',
  bot:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 4v4M9 13h.01M15 13h.01M9 16.5h6"/><circle cx="12" cy="3.5" r="1"/></svg>',
  online:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="8" height="14" rx="1.6"/><rect x="13.5" y="5" width="8" height="14" rx="1.6"/><path d="M10.5 12h3"/></svg>',
  join:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"/><path d="M10 16l4-4-4-4M14 12H3"/></svg>',
@@ -308,7 +379,7 @@ let S, DB=null, USER=null, ME=null, CANWRITE=null, unsub=null, writeQ=Promise.re
 const BOT="B";
 const SHARED=["pending","screen","names","form","order","selected","comp","start","poi","coin","first","pool","lineup","picks","history","cards","lastPos","vmap","closed","hostUid","guestUid","news"];
 function gameReset(){return{poi:{step:0,choice:null,numA:null,numB:null},coin:null,first:"A",pool:[],lineup:{A:[],B:[]},picks:0,history:[],
- votes:{A:0,B:0},vmap:{},closed:false,cards:{A:null,B:null},lastPos:{A:null,B:null},news:null,sel:null,filter:"ALL",reveal:null,peek:false,cmode:null,msg:null,lastFill:null,move:null,pending:null}}
+ votes:{A:0,B:0},vmap:{},closed:false,publishedId:null,cards:{A:null,B:null},lastPos:{A:null,B:null},news:null,sel:null,filter:"ALL",reveal:null,peek:false,cmode:null,msg:null,lastFill:null,move:null,pending:null}}
 function fresh(){return Object.assign({screen:"home",play:"local",seat:null,room:null,hostUid:null,guestUid:null,hostEditing:false,net:null,joinErr:null,dbState:"wait",
  names:{A:"Time Ouro",B:"Time Prata"},form:{A:"4-3-3",B:"4-4-2"},order:"alt",start:"poi",comp:"copa",selected:["bra70","bra02"]},gameReset())}
 
@@ -318,10 +389,17 @@ const CARDS={
  goleiro:{n:3,t:"Goleiro",d:"Escolha qualquer goleiro de todos os elencos campeões. Se você já tinha goleiro, ele volta para a lista."},
  mesma:{n:4,t:"Mesma posição",d:"Pegue mais um jogador da mesma posição que o adversário escolheu por último, sem gastar sua escolha."}
 };
-const STARS=new Set(["Zidane","Garrincha","Maradona","Zico","Cannavaro","Buffon","Totti","Gerrard","Drogba","Lampard","Ribéry","Robben","Vinícius Júnior","Bellingham","Figo","Raúl","Didi","Vavá","Nílton Santos","Djalma Santos","Hulk","Luis Suárez","Endrick","Rooney","Sneijder","Milito","Courtois","Van der Sar","Junior Baiano","Marcos","Pelé","Messi","Cristiano Ronaldo","Ronaldo","Ronaldinho","Romário","Rivaldo","Kaká","Neymar","Xavi","Iniesta","Maldini","Pirlo","Casillas","Neuer","Lahm","Kroos","Modric","Mbappé","Griezmann","Kanté","Haaland","De Bruyne","Rodri","Salah","Van Dijk","Alisson","Lewandowski","Müller","Benzema","Sergio Ramos","Puyol","Piqué","Busquets","Cafu","Roberto Carlos","Taffarel","Carlos Alberto Torres","Jairzinho","Tostão","Rivellino","Gérson","Di María","Bale","Marcelo","Henry","Eto'o","Seedorf","Nesta","Gabigol","Arrascaeta","Raí","Rogério Ceni","Pogba","Lloris","Schweinsteiger","Özil","Klose","Dunga","Bebeto","Lúcio","Emiliano Martínez","Julián Álvarez","Thiago Silva","Dani Alves","Ganso","Alex","Luis Suárez","Casemiro","Bernardo Silva","Davies","Kimmich","Alexander-Arnold","Valdés"]);
+const STARS=new Set(["Baresi","Van Basten","Gullit","Rijkaard","Stoichkov","Laudrup","Koeman","Guardiola","Litmanen","Kluivert","Davids","Vialli","Sammer","Beckham","Schmeichel","Kahn","Effenberg","Shevchenko","Rui Costa","Deco","Edmundo","Marcelinho Carioca","Neto","Túlio","Robinho","Fred","Conca","Dembélé","Kvaratskhelia","Hakimi","Vitinha","Petković","Adriano Imperador","Hernanes","Rincón","Juninho Pernambucano","Ricardinho","Redondo","Möller","Overmars","Savićević","Prosinečki","Abedi Pelé","Völler","Paulo Sousa","Maldini","Zidane","Garrincha","Maradona","Zico","Cannavaro","Buffon","Totti","Gerrard","Drogba","Lampard","Ribéry","Robben","Vinícius Júnior","Bellingham","Figo","Raúl","Didi","Vavá","Nílton Santos","Djalma Santos","Hulk","Luis Suárez","Endrick","Rooney","Sneijder","Milito","Courtois","Van der Sar","Junior Baiano","Marcos","Pelé","Messi","Cristiano Ronaldo","Ronaldo","Ronaldinho","Romário","Rivaldo","Kaká","Neymar","Xavi","Iniesta","Maldini","Pirlo","Casillas","Neuer","Lahm","Kroos","Modric","Mbappé","Griezmann","Kanté","Haaland","De Bruyne","Rodri","Salah","Van Dijk","Alisson","Lewandowski","Müller","Benzema","Sergio Ramos","Puyol","Piqué","Busquets","Cafu","Roberto Carlos","Taffarel","Carlos Alberto Torres","Jairzinho","Tostão","Rivellino","Gérson","Di María","Bale","Marcelo","Henry","Eto'o","Seedorf","Nesta","Gabigol","Arrascaeta","Raí","Rogério Ceni","Pogba","Lloris","Schweinsteiger","Özil","Klose","Dunga","Bebeto","Lúcio","Emiliano Martínez","Julián Álvarez","Thiago Silva","Dani Alves","Ganso","Alex","Luis Suárez","Casemiro","Bernardo Silva","Davies","Kimmich","Alexander-Arnold","Valdés"]);
+const DET={"Carlos Alberto Torres": "LD", "Everaldo": "LE", "Jorginho": "LD", "Branco": "LE", "Cafu": "LD", "Roberto Carlos": "LE", "Capdevila": "LE", "Lahm": "LD/LE/VOL", "Höwedes": "LE/ZAG", "Pavard": "LD/ZAG", "Lucas Hernández": "LE/ZAG", "Molina": "LD", "Tagliafico": "LE", "Acuña": "LE", "Montiel": "LD", "Vítor": "LD", "Ivan": "LE", "Danilo|LAT": "LD/ZAG", "Léo": "LE", "Alessandro": "LD", "Fábio Santos": "LE", "Edílson": "LD", "Bruno Cortez": "LE", "Rafinha": "LD/LE", "Filipe Luís": "LE", "Marcos Rocha": "LD", "Matías Viña": "LE", "Samuel Xavier": "LD", "Marcelo": "LE", "Diogo Barbosa": "LE", "Guga": "LD", "Vitinho|LAT": "LD", "Alex Telles": "LE", "Mateo Ponte": "LD", "Cicinho": "LD", "Júnior": "LE", "Ceará": "LD", "Rubens Cardoso": "LE", "Dani Alves": "LD", "Abidal": "LE/ZAG", "Carvajal": "LD", "Arbeloa": "LD/LE", "Marcos Alonso": "LE", "Maicon": "LD", "Leandro": "LE", "Fagner": "LD", "Uendel": "LE", "Mayke": "LD", "Oddo": "LD", "Jankulovski": "LE", "Favalli": "LE", "Sylvinho": "LE", "Alexander-Arnold": "LD", "Robertson": "LE", "Davies": "LE", "Walker": "LD", "Djalma Santos": "LD", "Nílton Santos": "LE", "Cuciuffo": "LD/ZAG", "Olarticoechea": "LE", "Thuram": "LD/ZAG", "Lizarazu": "LE", "Zambrotta": "LD/LE", "Grosso": "LE", "Arce": "LD", "Richarlyson": "LE/VOL", "Piquerez": "LE", "Rodinei": "LD", "Matheuzinho": "LD", "Leandro (FLA)": "LD", "Júnior (FLA)": "LE/MC", "Ronaldo Luís": "LE", "Jean": "LD/VOL", "Zé Roberto": "LE/MC", "Mariano": "LD", "Guilherme Arana": "LE", "Míchel Salgado": "LD", "Finnan": "LD", "Traoré": "LE", "Wes Brown": "LD/ZAG", "Evra": "LE", "Chivu": "LE/ZAG", "Bosingwa": "LD", "Ashley Cole": "LE", "Bertrand": "LE/PE", "Alaba": "ZAG/LE/MC", "Jordi Alba": "LE", "Ferland Mendy": "LE", "Piazza": "ZAG/VOL", "Mascherano": "ZAG/VOL", "Edmílson": "ZAG/VOL", "Azpilicueta": "ZAG/LD", "Kaladze": "ZAG/LE", "Joe Gomez": "ZAG/LD", "Stones": "ZAG/VOL", "Aké": "ZAG/LE", "Sergio Ramos": "ZAG/LD", "David Luiz": "ZAG/VOL", "Nacho": "ZAG/LE", "Mathieu": "ZAG/LE", "Militão": "ZAG/LD", "Carragher": "ZAG/LD", "Adílson": "VOL/ZAG", "Clodoaldo": "VOL/MC", "Mazinho": "VOL/MC", "Kléberson": "VOL/MC", "Schweinsteiger": "VOL/MC", "Kanté": "VOL/MC", "Pogba": "MC/VOL", "Tolisso": "MC", "Enzo Fernández": "MC/VOL", "Arouca": "VOL/MC", "Paulinho": "MC/VOL", "Arthur": "MC", "Willian Arão": "VOL/ZAG", "Gerson": "MC/VOL", "Zé Rafael": "VOL/MC", "Gabriel Menino": "MC/LD", "Martinelli": "MC", "Marlon Freitas": "VOL/MC", "Danilo Barbosa": "VOL/ZAG", "Keita": "MC/VOL", "Kovačić": "MC", "Elias": "MC/VOL", "Bruno Henrique|VOL": "VOL/MC", "Pirlo": "VOL/MEI", "Yaya Touré": "VOL/MC", "Fabinho": "VOL/ZAG", "Henderson": "VOL/MC", "Kimmich": "VOL/LD", "Goretzka": "MC", "Petit": "VOL/MC", "Vieira": "VOL/MC", "João Gomes": "VOL/MC", "Vidal": "MC/VOL", "Toninho Cerezo": "VOL/MC", "Tchê Tchê": "VOL/MC", "Richard Ríos": "MC", "Hargreaves": "VOL/LD", "Zanetti": "VOL/LD", "Javi Martínez": "VOL/ZAG", "Camavinga": "MC/LE", "Gilberto Silva": "VOL/ZAG", "Xabi Alonso": "VOL/MC", "Felipe Melo": "VOL/ZAG", "Gérson": "MC/MEI", "Rivellino": "MEI/PE", "Zinho": "MEI/PE", "Ronaldinho": "MEI/PE", "Rivaldo": "MEI/PE", "Xavi": "MC/MEI", "Iniesta": "MEI/MC/PE", "Fàbregas": "MEI/MC", "Kroos": "MC", "Özil": "MEI/PD", "Götze": "MEI/PE", "Matuidi": "MC/PE", "De Paul": "MC", "Mac Allister": "MC/MEI", "Elano": "MEI/PD", "Danilo Gabriel": "MEI/MC", "Ramiro": "MC/PD", "Luan|MEI": "MEI/PE", "Everton Ribeiro": "MEI/PD", "Arrascaeta": "MEI/PE", "Lima": "MEI/MC", "Fernandão": "MEI/CA", "Adriano Gabiru": "MEI/PE", "Thiago Alcântara": "MC/MEI", "Isco": "MEI/PE", "James Rodríguez": "MEI/PD", "Mount": "MEI/MC", "Renato Augusto": "MEI/MC", "Jadson": "MEI/PD", "Seedorf": "MEI/MC", "Modric": "MC/MEI", "Asensio": "MEI/PD", "Wijnaldum": "MC", "Milner": "MC/LD", "Coutinho": "MEI/PE", "Bernardo Silva": "MEI/PD", "De Bruyne": "MEI/MC", "Gündoğan": "MC/MEI", "Foden": "MEI/PE", "Didi": "MEI/MC", "Enrique": "MC", "Maradona": "MEI/CA", "Karembeu": "MC/LD", "Djorkaeff": "MEI/CA", "Perrotta": "MC", "Camoranesi": "PD/MC", "Totti": "MEI/CA", "Guilherme": "MEI/PE", "Gustavo Scarpa": "MEI/PE", "Adílio": "MEI/MC", "Moisés": "MEI/MC", "Zaracho": "MC/PD", "Figo": "PD/MEI", "Solari": "PE/MEI", "McManaman": "MEI/PE", "Gerrard": "MEI/MC", "Riise": "LE/PE", "Šmicer": "MEI/PD", "Scholes": "MC/MEI", "Anderson": "MC", "Giggs": "PE/MC", "Stanković": "MC", "Lampard": "MEI/MC", "Mata": "MEI/PD", "Malouda": "PE", "Thomas Müller": "MEI/CA/PD", "Rakitić": "MC", "Valverde": "MC/PD", "Ceballos": "MC", "Bellingham": "MEI/MC", "Jairzinho": "PD", "Tostão": "CA/MEI", "Pelé": "CA/MEI", "Bebeto": "CA/PD", "Romário": "CA", "Viola": "CA", "Ronaldo": "CA", "Denílson": "PE", "Pedro": "PD/PE", "David Villa": "PE/CA", "Jesús Navas": "PD", "Fernando Torres": "CA", "Klose": "CA", "Schürrle": "PE", "Griezmann": "CA/MEI", "Mbappé": "PE/CA", "Giroud": "CA", "Messi": "PD/MEI/CA", "Di María": "PE/PD", "Julián Álvarez": "CA", "Lautaro Martínez": "CA", "Dybala": "PD/MEI", "Palhinha": "CA/MEI", "Macedo": "PD", "Müller": "CA/PD", "Neymar": "PE/MEI", "Zé Love": "CA", "Jorge Henrique": "PD/PE", "Emerson Sheik": "PE/CA", "Liedson": "CA", "Romarinho": "PD", "Fernandinho": "PE", "Lucas Barrios": "CA", "Everton": "PE", "Jael": "CA", "Bruno Henrique|ATA": "PE/CA", "Gabigol": "CA/PD", "Vitinho|ATA": "PE/PD", "Rony": "PD/CA", "Luiz Adriano": "CA", "Breno Lopes": "PE/CA", "Willian": "PD/PE", "Jhon Arias": "PD/MEI", "Keno": "PE", "Germán Cano": "CA", "John Kennedy": "CA", "Savarino": "PD", "Luiz Henrique": "PD/PE", "Igor Jesus": "CA", "Júnior Santos": "PD/CA", "Amoroso": "CA/PE", "Aloísio": "CA", "Iarley": "PD/CA", "Pato": "CA", "Guerrero": "CA", "Bale": "PD", "Cristiano Ronaldo": "PE/CA", "Benzema": "CA", "Hudson-Odoi": "PD", "Havertz": "CA/MEI", "Lukaku": "CA", "Ziyech": "PD", "Pulisic": "PE", "Deivid": "CA", "Aristizábal": "CA", "Mota": "CA", "Malcom": "PD", "Vagner Love": "CA", "Lucca": "PD", "Dudu": "PE/PD", "Deyverson": "CA", "Borja": "CA", "Inzaghi": "CA", "Gilardino": "CA", "Eto'o": "CA/PD", "Henry": "PE/CA", "Morata": "CA", "Salah": "PD", "Mané": "PE", "Firmino": "CA/MEI", "Origi": "CA", "Gnabry": "PD", "Coman": "PE", "Lewandowski": "CA", "Perišić": "PE/LE", "Grealish": "PE", "Haaland": "CA", "Garrincha": "PD", "Vavá": "CA", "Zagallo": "PE/MC", "Amarildo": "PE", "Valdano": "CA", "Guivarc'h": "CA", "Dugarry": "CA", "Toni": "CA", "Iaquinta": "CA/PE", "Del Piero": "CA/PE", "Paulo Nunes": "PD/CA", "Oséas": "CA", "Evair": "CA", "Euller": "PE/PD", "Bernard": "PE", "Diego Tardelli": "CA/PE", "Jô": "CA", "Alecsandro": "CA", "Pedro (FLA)": "CA", "Marinho": "PD", "Tita": "PD/MEI", "Nunes": "CA", "Lico": "PE", "Roger Guedes": "PD/PE", "Gabriel Jesus": "CA/PE", "Hulk": "PD/CA", "Vargas": "PE/CA", "Diego Costa": "CA", "Artur": "PD", "Endrick": "CA", "Raúl": "CA", "Morientes": "CA", "Luis García": "PD/MEI", "Kewell": "PE", "Baroš": "CA", "Cissé": "CA", "Rooney": "CA/MEI", "Tevez": "CA", "Nani": "PD/PE", "Pandev": "PE", "Milito": "CA", "Kalou": "PD/PE", "Drogba": "CA", "Robben": "PD", "Ribéry": "PE", "Mandžukić": "CA", "Mario Gómez": "CA", "Luis Suárez": "CA", "Vinícius Júnior": "PE", "Rodrygo": "PD/PE", "Joselu": "CA", "Ronaldo Giovanelli": "GOL", "Giba": "LD", "Jacenir": "LE", "Márcio Bittencourt": "VOL", "Wilson Mano": "VOL/MC", "Neto": "MEI", "Tupãzinho": "CA/MEI", "Fabinho (COR)": "PE/CA", "Mauro (COR)": "CA", "Leonardo": "LE/MEI", "Ricardo Rocha": "ZAG", "Bernardo": "VOL", "Elivélton": "PE", "Mário Tilico": "PD", "Charles Guerreiro": "LD", "Piá": "LE", "Uidemar": "VOL", "Nélio": "MEI/PD", "Gaúcho": "CA", "Gil Baiano": "LD", "Edílson|ATA": "CA/PD", "Edmundo": "CA/PD", "Velloso": "GOL", "Cláudio": "LD", "Wilson Goiano": "LD", "André Silva": "LE", "Jamir": "VOL", "Leandro Ávila": "VOL", "Beto": "MEI", "Sérgio Manoel": "MEI", "Donizete": "PD/CA", "Túlio": "CA", "Roger": "LE", "Adílson Batista": "ZAG", "Dinho": "VOL", "Goiano": "VOL", "Carlos Miguel": "MEI", "Aílton": "MEI/PE", "Zé Alcino": "CA", "Maricá": "LD", "Felipe": "LE/MEI", "Mauro Galvão": "ZAG", "Luisinho": "VOL", "Nasa": "VOL", "Ramon": "MEI", "Juninho Pernambucano": "MEI/MC", "Índio (COR)": "LD", "Batata": "ZAG", "Gamarra": "ZAG", "Rincón": "VOL/MC", "Ricardinho": "MEI", "Marcelinho Carioca": "MEI/PD", "Mirandinha": "CA", "Kléber": "LE", "Márcio Costa": "ZAG", "Clébson": "LD", "Jorginho Paulista": "LE", "Paulo Miranda": "VOL", "Juninho Paulista": "MEI", "Fabiano": "LE", "Nem": "ZAG", "Gustavo": "ZAG", "Cocito": "VOL", "Kléber (CAP)": "MEI", "Alex Mineiro": "CA/PE", "Kléber Pereira": "CA", "Maurinho": "LD", "Alex (SAN)": "ZAG", "Renato": "VOL/MC", "Robinho": "PE/CA", "Alberto": "CA", "Paulo César": "LD", "Domingos": "ZAG", "Basílio": "CA", "Coelho": "LD", "Gustavo Nery": "LE", "Marinho (COR)": "ZAG", "Marcelo Mattos": "VOL", "Rosinei": "VOL/MC", "Carlos Alberto": "MEI/PD", "Roger (COR)": "MEI", "Nilmar": "CA/PE", "Souza": "LD", "Alex Silva": "ZAG", "Leandro (SAO)": "CA/PD", "Jorge Wagner": "LE/MEI", "Breno": "ZAG", "Miranda": "ZAG", "Hernanes": "VOL/MEI", "Hugo": "MEI", "Dagoberto": "PE/CA", "Borges": "CA", "Joílson": "LD", "André Dias": "ZAG", "Rodrigo (SAO)": "ZAG", "Bruno (FLA)": "GOL", "Léo Moura": "LD", "Juan": "LE", "Ronaldo Angelim": "ZAG", "Álvaro": "ZAG", "Airton": "VOL", "Willians": "VOL", "Toró": "VOL", "Petković": "MEI", "Adriano Imperador": "CA", "Ricardo Berna": "GOL", "Carlinhos": "LE", "Gum": "ZAG", "Leandro Euzébio": "ZAG", "Diguinho": "VOL", "Valencia": "VOL", "Conca": "MEI", "Marquinho": "MEI/PE", "Fred": "CA", "Júlio César (COR)": "GOL", "Diego Cavalieri": "GOL", "Bruno (FLU)": "LD", "Deco": "MEI", "Thiago Neves": "MEI", "Wellington Nem": "PE/PD", "Egídio": "LE", "Dedé": "ZAG", "Nílton": "VOL", "Lucas Silva": "VOL/MC", "Ricardo Goulart": "MEI/CA", "Léo (CRU)": "ZAG", "Henrique": "VOL", "Marquinhos (CRU)": "PE/PD", "Marcelo Moreno": "CA", "Pablo": "ZAG", "Balbuena": "ZAG", "Gabriel": "VOL", "Maycon": "MC", "Isla": "LD", "Gustavo Henrique": "ZAG", "Rossi": "GOL", "Varela": "LD", "Alex Sandro": "LE", "Léo Ortiz": "ZAG/VOL", "Jorginho (ITA)": "VOL", "Carrascal": "MEI/PD", "Giovanni Galli": "GOL", "Tassotti": "LD", "Maldini": "ZAG/LE", "Costacurta": "ZAG", "Baresi": "ZAG", "Rijkaard": "VOL/ZAG", "Colombo": "MC/PD", "Ancelotti": "MC", "Evani": "MC/PE", "Gullit": "MEI/CA", "Van Basten": "CA", "Massaro": "CA/PE", "Stojanović": "GOL", "Marović": "LD", "Belodedić": "ZAG", "Najdoski": "ZAG", "Šabanadžović": "VOL", "Jugović": "MC", "Binić": "PD", "Prosinečki": "MEI", "Mihajlović": "LE/ZAG", "Savićević": "PE/MEI", "Pančev": "CA", "Stošić": "MC", "Zubizarreta": "GOL", "Nando": "ZAG/LD", "Ferrer": "LD", "Koeman": "ZAG", "Juan Carlos": "LE", "Guardiola": "VOL", "Bakero": "MEI", "Eusebio": "MC", "Laudrup": "MEI/PE", "Stoichkov": "PE/CA", "Salinas": "CA", "Goikoetxea": "PD", "Alexanko": "ZAG", "Angloma": "LD", "Di Meco": "LE", "Boli": "ZAG", "Eydelie": "VOL", "Sauzée": "MC", "Abedi Pelé": "MEI/PE", "Bokšić": "CA", "Völler": "CA", "Durand": "MC", "Sebastiano Rossi": "GOL", "Panucci": "LD/LE", "Filippo Galli": "ZAG", "Albertini": "VOL", "Donadoni": "PD/MEI", "Boban": "MEI", "Nava": "ZAG", "Reiziger": "LD", "Frank de Boer": "ZAG/LE", "Blind": "ZAG", "Davids": "VOL/MC", "Ronald de Boer": "MEI/PD", "Finidi": "PD", "Litmanen": "MEI/CA", "Overmars": "PE", "Kanu": "CA", "Kluivert": "CA", "Peruzzi": "GOL", "Torricelli": "LD/ZAG", "Pessotto": "LE", "Ferrara": "ZAG", "Vierchowod": "ZAG", "Paulo Sousa": "VOL/MC", "Conte": "MC", "Vialli": "CA", "Ravanelli": "CA", "Di Livio": "PD", "Padovano": "CA", "Klos": "GOL", "Reuter": "LD/MC", "Heinrich": "LE/MC", "Kohler": "ZAG", "Sammer": "ZAG/VOL", "Kree": "ZAG", "Lambert": "VOL", "Möller": "MEI", "Chapuisat": "CA", "Riedle": "CA", "Ricken": "MEI", "Zorc": "MC", "Herrlich": "CA", "Illgner": "GOL", "Sanchís": "ZAG", "Redondo": "VOL", "Mijatović": "CA/PD", "Jaime": "LD", "Amavisca": "PE", "Šuker": "CA", "Schmeichel": "GOL", "Gary Neville": "LD", "Irwin": "LE", "Johnsen": "ZAG", "Stam": "ZAG", "Butt": "VOL", "Beckham": "PD/MC", "Blomqvist": "PE", "Andy Cole": "CA", "Yorke": "CA", "Sheringham": "CA/MEI", "Solskjær": "CA", "Karanka": "ZAG", "Iván Campo": "ZAG", "Anelka": "CA", "Savio": "PE", "Kahn": "GOL", "Sagnol": "LD", "Andersson": "ZAG", "Kuffour": "ZAG", "Effenberg": "MC/MEI", "Scholl": "MEI", "Salihamidžić": "PD/LD", "Élber": "CA", "Jancker": "CA", "Zickler": "CA", "Paulo Sérgio": "PD/CA", "Rui Costa": "MEI", "Shevchenko": "CA", "Roque Júnior": "ZAG", "Serginho": "LE/PE", "Vítor Baía": "GOL", "Paulo Ferreira": "LD", "Nuno Valente": "LE", "Jorge Costa": "ZAG", "Ricardo Carvalho": "ZAG", "Costinha": "VOL", "Maniche": "MC", "Pedro Mendes": "MC", "Derlei": "CA", "Alenichev": "MEI", "Pedro Emanuel": "ZAG", "McCarthy": "CA", "Oleguer": "LD", "Van Bronckhorst": "LE", "Márquez": "ZAG/VOL", "Van Bommel": "VOL", "Giuly": "PD", "Larsson": "CA", "Belletti": "LD", "Afellay": "MEI/PD", "Coentrão": "LE", "Khedira": "VOL/MC", "Lucas Vázquez": "PD/LD", "Reece James": "LD", "Chilwell": "LE", "Werner": "CA/PE", "Donnarumma": "GOL", "Hakimi": "LD", "Nuno Mendes": "LE", "Marquinhos": "ZAG/VOL", "Pacho": "ZAG", "Vitinha": "VOL/MC", "João Neves": "MC", "Fabián Ruiz": "MC", "Doué": "PD/PE", "Dembélé": "CA/PD", "Kvaratskhelia": "PE", "Barcola": "PE", "Mayulu": "MC", "Zaïre-Emery": "MC", "Gonçalo Ramos": "CA", "Felipe|ZAG": "ZAG"};
+const DEFDET={GOL:"GOL",LAT:"LD",ZAG:"ZAG",VOL:"VOL",MEI:"MEI",ATA:"CA"};
+const detOf=(n,p)=>(DET[n+"|"+p]||DET[n]||DEFDET[p]).split("/");
+const ACC={GOL:["GOL"],LD:["LD"],LE:["LE"],ALA:["LD","LE"],ZAG:["ZAG"],VOL:["VOL"],MEI:["MEI","MC"],MD:["PD","MC","MEI"],ME:["PE","MC","MEI"],PD:["PD"],PE:["PE"],CA:["CA"],ATA:["CA","PD","PE"]};
+const pdet=p=>p.det||detOf(p.name,p.pos);
+const fits=(p,lbl)=>pdet(p).some(d=>ACC[lbl].includes(d));
+const POSNAME={GOL:"goleiro",LD:"lateral-direito",LE:"lateral-esquerdo",ZAG:"zagueiro",VOL:"volante",MC:"meio-campo",MEI:"meia",PD:"ponta-direita",PE:"ponta-esquerda",CA:"centroavante"};
 const FIT={GOL:"GOL",LD:"LAT",LE:"LAT",ALA:"LAT",ZAG:"ZAG",VOL:"VOL",MEI:"MEI",MD:"MEI",ME:"MEI",PD:"ATA",PE:"ATA",CA:"ATA",ATA:"ATA"};
 const ALL=(()=>{const m=new Map();SQUADS.forEach(sq=>sq.p.split(",").forEach(e=>{const[name,pos]=e.replace(/^\*/,"").split(":");const k=name+"|"+pos;
- if(!m.has(k))m.set(k,{name,pos,tags:[]});const it=m.get(k);if(!it.tags.includes(sq.t))it.tags.push(sq.t)}));return m})();
+ if(!m.has(k))m.set(k,{name,pos,det:detOf(name,pos),tags:[]});const it=m.get(k);if(!it.tags.includes(sq.t))it.tags.push(sq.t)}));return m})();
 const keyOf=p=>p.name+"|"+p.pos;
 const other=t=>t==="A"?"B":"A";
 const slots=t=>FORMS[S.form[t]].flat();
@@ -334,7 +412,7 @@ const isHost=()=>S.play!=="online"||S.seat==="A";
 function buildPool(){
  const m=new Map();
  S.selected.forEach(id=>{const sq=SQUADS.find(s=>s.id===id);sq.p.split(",").filter(e=>e[0]!=="*").forEach(e=>{const [name,pos]=e.split(":");const k=name+"|"+pos;
-  if(!m.has(k))m.set(k,{name,pos,tags:[]});const it=m.get(k);if(!it.tags.includes(sq.t))it.tags.push(sq.t)})});
+  if(!m.has(k))m.set(k,{name,pos,det:detOf(name,pos),tags:[]});const it=m.get(k);if(!it.tags.includes(sq.t))it.tags.push(sq.t)})});
  return [...m.values()].sort((a,b)=>POS_ORDER.indexOf(a.pos)-POS_ORDER.indexOf(b.pos)||a.name.localeCompare(b.name,"pt")).map((p,i)=>({...p,i,taken:null}));
 }
 const poolSize=()=>{const k=new Set();S.selected.forEach(id=>SQUADS.find(s=>s.id===id).p.split(",").filter(e=>e[0]!=="*").forEach(e=>k.add(e)));return k.size};
@@ -347,7 +425,7 @@ function turn(){
  if(full(t))t=other(t);
  return t;
 }
-function addToPool(o,extra){let i=S.pool.findIndex(p=>keyOf(p)===keyOf(o));if(i>=0)return i;i=S.pool.length;S.pool.push({name:o.name,pos:o.pos,tags:[...o.tags],i,taken:null,...extra});return i}
+function addToPool(o,extra){let i=S.pool.findIndex(p=>keyOf(p)===keyOf(o));if(i>=0)return i;i=S.pool.length;S.pool.push({name:o.name,pos:o.pos,det:pdet(o),tags:[...o.tags],i,taken:null,...extra});return i}
 function surprisePool(){const inPool=o=>S.pool.some(p=>keyOf(p)===keyOf(o));
  const res=[];S.selected.forEach(id=>SQUADS.find(s=>s.id===id).p.split(",").filter(e=>e[0]==="*").forEach(e=>{const k=e.slice(1).split(":");const o=ALL.get(k[0]+"|"+k[1]);if(o&&!inPool(o)&&!res.includes(o))res.push(o)}));
  if(res.length)return res;
@@ -359,11 +437,14 @@ function usable(t){const c=S.cards[t];if(!c||c.used)return false;
  if(c.id==="goleiro")return gkList().length>0;
  const pos=S.lastPos[other(t)];return !!pos&&S.pool.some(p=>!p.taken&&p.pos===pos)}
 const emptySlots=t=>S.lineup[t].map((v,i)=>v===null?i:-1).filter(i=>i>=0);
-function bestSlot(t,pos){const L=slots(t),e=emptySlots(t);return e.find(i=>FIT[L[i]]===pos)??e.find(i=>L[i]!=="GOL")??e[0]}
+function bestSlot(t,p){const L=slots(t),e=emptySlots(t);if(typeof p==="string")p={pos:p,det:[DEFDET[p]]};
+ const d=pdet(p);for(const x of d){const i=e.find(i=>ACC[L[i]].includes(x)&&ACC[L[i]].length<=2);if(i!==undefined)return i}
+ return e.find(i=>fits(p,L[i]))??e.find(i=>L[i]!=="GOL")??e[0]}
 function canArrange(t){return S.screen==="draft"&&controls(t)&&!isBot(t)&&!S.reveal&&!S.cmode&&!S.pending&&S.sel===null}
 function changeForm(t,f){const players=S.lineup[t].filter(x=>x!==null).sort((a,b)=>(S.pool[a].pos==="GOL"?-1:0)-(S.pool[b].pos==="GOL"?-1:0));
  S.form[t]=f;const L=slots(t);const lu=L.map(()=>null);const rest=[];
- players.forEach(pk=>{const i=L.findIndex((l,j)=>lu[j]===null&&FIT[l]===S.pool[pk].pos);if(i>=0)lu[i]=pk;else rest.push(pk)});
+ players.forEach(pk=>{const p=S.pool[pk];let i=-1;for(const x of pdet(p)){i=L.findIndex((l,j)=>lu[j]===null&&ACC[l].includes(x)&&ACC[l].length<=2);if(i>=0)break}
+  if(i<0)i=L.findIndex((l,j)=>lu[j]===null&&fits(p,l));if(i>=0)lu[i]=pk;else rest.push(pk)});
  rest.forEach(pk=>{let i=lu.findIndex((v,j)=>v===null&&L[j]!=="GOL");if(i<0)i=lu.indexOf(null);lu[i]=pk});
  S.lineup[t]=lu;S.move=null;S.history=[]}
 
@@ -397,27 +478,27 @@ const bscore=p=>(STARS.has(p.name)?3:1)+Math.random()*1.4;
 function botCard(t){const c=S.cards[t];if(!c||c.used)return;const o=other(t);
  if(!usable(t))return loseCard(t);
  if(c.id==="goleiro"&&S.lineup[t][0]!==null){const l=gkList();const sc=new Map(l.map(g=>[g,bscore(g)]));return doGoleiro(t,keyOf(l.reduce((a,b)=>sc.get(b)>sc.get(a)?b:a)))}
- if(c.id==="mesma"){const pos=S.lastPos[o];const L=slots(t);if(!emptySlots(t).some(i=>FIT[L[i]]===pos)){const cand=S.pool.filter(p=>!p.taken&&p.pos===pos);const sc=new Map(cand.map(p=>[p,bscore(p)]));const p=cand.reduce((a,b)=>sc.get(b)>sc.get(a)?b:a);c.used=true;return place(t,p.i,bestSlot(t,pos),"mesma")}}
+ if(c.id==="mesma"){const pos=S.lastPos[o];const L=slots(t);if(!emptySlots(t).some(i=>ACC[L[i]].some(x=>DEFDET[pos]===x))){const cand=S.pool.filter(p=>!p.taken&&p.pos===pos);const sc=new Map(cand.map(p=>[p,bscore(p)]));const p=cand.reduce((a,b)=>sc.get(b)>sc.get(a)?b:a);c.used=true;return place(t,p.i,bestSlot(t,pos),"mesma")}}
  if(c.id==="troca"){const sc=pk=>(STARS.has(S.pool[pk].name)?3:1)+(pk%7)/10;
   const theirs=S.lineup[o].map((pk,i)=>({pk,i})).filter(x=>x.pk!==null&&slots(o)[x.i]!=="GOL");const mine=S.lineup[t].map((pk,i)=>({pk,i})).filter(x=>x.pk!==null&&slots(t)[x.i]!=="GOL");
   if(theirs.length&&mine.length){const best=theirs.reduce((a,b)=>sc(b.pk)>sc(a.pk)?b:a),worst=mine.reduce((a,b)=>sc(b.pk)<sc(a.pk)?b:a);return doSwap(t,worst.i,best.i)}
   return loseCard(t)}
  if(c.id==="surpresa"){const l=surprisePool();if(!l.length)return;const p=l[Math.floor(Math.random()*l.length)];
-  const idx=addToPool(p,{surprise:true});c.used=true;place(t,idx,bestSlot(t,p.pos),"surpresa")}
+  const idx=addToPool(p,{surprise:true});c.used=true;place(t,idx,bestSlot(t,p),"surpresa")}
  else if(c.id==="goleiro"){if(S.lineup[t][0]!==null)return;const l=gkList();if(!l.length)return;
   const sc=new Map(l.map(g=>[g,bscore(g)]));const g=l.reduce((a,b)=>sc.get(b)>sc.get(a)?b:a);doGoleiro(t,keyOf(g))}
  else if(c.id==="mesma"){const pos=S.lastPos[o];if(!pos)return;const L=slots(t);
-  if(!emptySlots(t).some(i=>FIT[L[i]]===pos))return;const cand=S.pool.filter(p=>!p.taken&&p.pos===pos);if(!cand.length)return;
+  if(!emptySlots(t).some(i=>S.pool.some(p=>!p.taken&&p.pos===pos&&fits(p,L[i]))))return;const cand=S.pool.filter(p=>!p.taken&&p.pos===pos);if(!cand.length)return;
   const sc=new Map(cand.map(p=>[p,bscore(p)]));const p=cand.reduce((a,b)=>sc.get(b)>sc.get(a)?b:a);c.used=true;place(t,p.i,bestSlot(t,pos),"mesma")}
  else if(c.id==="troca"){const theirs=S.lineup[o].map((pk,i)=>({pk,i})).filter(x=>x.pk!==null&&STARS.has(S.pool[x.pk].name)&&slots(o)[x.i]!=="GOL");
   const mine=S.lineup[t].map((pk,i)=>({pk,i})).filter(x=>x.pk!==null&&!STARS.has(S.pool[x.pk].name)&&slots(t)[x.i]!=="GOL");
   if(!theirs.length||!mine.length)return;doSwap(t,mine[mine.length-1].i,theirs[Math.floor(Math.random()*theirs.length)].i)}}
 function botMove(){const t=BOT;
  if(turn()!==t)return;
- const L=slots(t),needs=new Set(emptySlots(t).map(i=>FIT[L[i]]));
- const av=S.pool.filter(p=>!p.taken);let cand=av.filter(p=>needs.has(p.pos));if(!cand.length)cand=av;
- const sc=new Map(cand.map(p=>[p,bscore(p)+(p.pos==="GOL"&&needs.has("GOL")?2.5:0)]));const p=cand.reduce((a,b)=>sc.get(b)>sc.get(a)?b:a);
- place(t,p.i,bestSlot(t,p.pos),null)}
+ const L=slots(t),E=emptySlots(t),needGK=E.some(i=>L[i]==="GOL");
+ const av=S.pool.filter(p=>!p.taken);let cand=av.filter(p=>E.some(i=>fits(p,L[i])));if(!cand.length)cand=av;
+ const sc=new Map(cand.map(p=>[p,bscore(p)+(p.pos==="GOL"&&needGK?2.5:0)]));const p=cand.reduce((a,b)=>sc.get(b)>sc.get(a)?b:a);
+ place(t,p.i,bestSlot(t,p),null)}
 function scheduleBot(){if(S.play!=="bot"||botTimer)return;
  if(!(S.screen==="draft"&&turn()===BOT&&!S.reveal&&!S.cmode&&!S.pending))return;
  botTimer=setTimeout(()=>{botTimer=null;if(S.screen==="draft"&&turn()===BOT&&!S.reveal&&!S.cmode&&!S.pending){botMove();render()}},1100)}
@@ -430,9 +511,9 @@ const isObj=x=>x&&typeof x==="object"&&!Array.isArray(x);
 function deepMerge(a,b){const o={...(a||{})};for(const k in b){o[k]=isObj(b[k])&&isObj(o[k])?deepMerge(o[k],b[k]):b[k]}return o}
 const jclone=x=>x==null?x:JSON.parse(JSON.stringify(x));
 function myId(){try{let v=localStorage.getItem("racha_me");if(!v){v="p_"+Math.random().toString(36).slice(2,12);localStorage.setItem("racha_me",v)}return v}catch(e){return "p_"+Math.random().toString(36).slice(2,12)}}
-function connectBroker(){return new Promise((res,rej)=>{if(!window.mqtt)return rej({code:"no-lib"});let i=0;
+function connectBroker(ver){return new Promise((res,rej)=>{if(!window.mqtt)return rej({code:"no-lib"});let i=0;
  const next=()=>{if(i>=BROKERS.length)return rej({code:"unavailable"});const url=BROKERS[i++];
-  const c=mqtt.connect(url,{clientId:"rc_"+Math.random().toString(36).slice(2,10),clean:true,connectTimeout:8000,reconnectPeriod:2000,keepalive:30});
+  const c=mqtt.connect(url,{protocolVersion:ver||4,clientId:"rc_"+Math.random().toString(36).slice(2,10),clean:true,connectTimeout:8000,reconnectPeriod:2000,keepalive:30});
   let done=false;const t=setTimeout(()=>{if(done)return;done=true;try{c.end(true)}catch(e){}next()},9000);
   c.once("connect",()=>{if(done)return;done=true;clearTimeout(t);res(c)});
   c.once("error",()=>{if(done)return;done=true;clearTimeout(t);try{c.end(true)}catch(e){}next()})};next()})}
@@ -513,6 +594,67 @@ function leaveRoom(){if(unsub)unsub();unsub=null;lsSet(null);const keep={names:{
 
 const cardBack=mini=>`<div class="card back ${mini?"minib":""}" aria-hidden="true"><img src="${LOGO_ICON}" alt=""><span class="q">?</span></div>`;
 const cardFace=(id,mini)=>{const C=CARDS[id];return `<div class="card ${mini?"mini":""}"><span class="cn">${C.n}</span><div style="display:flex;flex-direction:column;gap:8px"><h3>${C.t}</h3><p>${C.d}</p></div></div>`};
+
+/* mural de votação: cada publicação fica 24 horas no ar */
+const MURAL="racha-dos-campeoes/v1/mural",DAY=864e5;
+const MUR={list:{},votes:{},status:"idle",focus:null,copied:null};let MC=null;
+async function muralConn(){if(MC&&MC.connected)return MC;try{MC=await connectBroker(5)}catch(e){MC=await connectBroker(4)}return MC}
+function muralPub(c,topic,obj){const o={qos:1,retain:true};if(c.options&&c.options.protocolVersion===5)o.properties={messageExpiryInterval:86400};c.publish(topic,JSON.stringify(obj),o)}
+async function openMural(focus){
+ S.screen="mural";MUR.focus=focus||MUR.focus;render();
+ if(MUR.status==="ready"||MUR.status==="loading")return;
+ MUR.status="loading";render();
+ try{
+  if(STANDALONE){const c=await muralConn();
+   c.on("message",(t,buf)=>{if(!t.startsWith(MURAL+"/"))return;const parts=t.slice(MURAL.length+1).split("/");let m=null;try{m=JSON.parse(buf.toString())}catch(e){return}
+    if(parts[1]==="meta"&&m&&m.id&&Date.now()-m.at<DAY)MUR.list[m.id]=m;
+    if(parts[1]==="v"&&parts[2]&&m&&m.t)(MUR.votes[parts[0]]||(MUR.votes[parts[0]]={}))[parts[2]]=m.t;
+    if(S.screen==="mural"){clearTimeout(openMural.t);openMural.t=setTimeout(render,120)}});
+   c.subscribe([MURAL+"/+/meta",MURAL+"/+/v/+"],{qos:1});
+   setTimeout(()=>{MUR.status="ready";if(S.screen==="mural")render()},1500);
+  } else if(DB){
+   let got=false;const tm=setTimeout(()=>{if(!got){MUR.status="error";render()}},10000);
+   DB.collection("mural").onSnapshot(qs=>{got=true;clearTimeout(tm);MUR.list={};MUR.votes={};
+    qs.docs.forEach(d=>{const x=d.data();if(x&&x.id&&Date.now()-x.at<DAY){MUR.list[x.id]=x;MUR.votes[x.id]={...(x.votes||{})}}});
+    MUR.status="ready";if(S.screen==="mural")render()},()=>{clearTimeout(tm);MUR.status="error";render()});
+  } else {MUR.status="off";render()}
+ }catch(e){MUR.status="error";render()}}
+function teamList(t){const L=slots(t);return L.map((lbl,i)=>{const pk=S.lineup[t][i];const p=pk==null?null:S.pool[pk];return p?[lbl,p.name,pdet(p).join("/")]:[lbl,"—",""]})}
+async function publishMural(){
+ if(S.publishedId)return openMural(S.publishedId);
+ const id=Math.random().toString(36).slice(2,10);
+ const e={id,at:Date.now(),names:{...S.names},form:{...S.form},teams:{A:teamList("A"),B:teamList("B")},champs:S.selected.map(x=>SQUADS.find(s=>s.id===x).n)};
+ try{
+  if(STANDALONE){const c=await muralConn();muralPub(c,MURAL+"/"+id+"/meta",e)}
+  else if(DB){await DB.collection("mural").doc(id).set({...e,votes:{}})}
+  else throw 0;
+  S.publishedId=id;MUR.list[id]=e;MUR.votes[id]={};openMural(id);
+ }catch(err){S.net="Não consegui publicar no mural agora. Verifique a conexão.";render()}}
+async function muralVote(id,t){if(!ME)return;(MUR.votes[id]||(MUR.votes[id]={}))[ME]=t;render();
+ try{if(STANDALONE){const c=await muralConn();muralPub(c,MURAL+"/"+id+"/v/"+ME,{t,at:Date.now()})}
+  else if(DB)await DB.collection("mural").doc(id).update({votes:{[ME]:t}})}catch(e){S.net="Não consegui registrar o voto.";render()}}
+const muralLink=id=>location.href.split("#")[0]+"#mural-"+id;
+function leftTxt(at){const ms=at+DAY-Date.now();const h=Math.floor(ms/36e5),m=Math.floor(ms%36e5/6e4);return ms<=0?"encerrada":h>0?`fica mais ${h}h${m?` ${m}min`:""} no ar`:`fica mais ${m}min no ar`}
+function mural(){
+ const ents=Object.values(MUR.list).filter(e=>Date.now()-e.at<DAY).sort((a,b)=>(b.id===MUR.focus)-(a.id===MUR.focus)||b.at-a.at);
+ const st=MUR.status;
+ const card=e=>{const v=MUR.votes[e.id]||{};const c={A:0,B:0};Object.values(v).forEach(x=>{if(c[x]!==undefined)c[x]++});const mine=ME?v[ME]:null;const tot=c.A+c.B;
+  const col=t=>`<div class="mt ${t}"><div class="mt-h"><b>${esc(e.names[t])}</b><small>${esc(e.form[t])}</small></div>
+   <ol>${e.teams[t].map(([l,n,d])=>`<li><span class="ml">${esc(l)}</span><span class="mn">${esc(n)}</span><span class="md">${esc(d)}</span></li>`).join("")}</ol>
+   <button class="vbtn ${t} ${mine===t?"mine":""}" data-mvote="${t}" data-id="${e.id}" ${ME?"":"disabled"}><span class="n">${c[t]}</span>${mine===t?"Seu voto":"Votar"}${tot?` · ${Math.round(c[t]*100/tot)}%`:""}</button></div>`;
+  return `<article class="panel mcard ${e.id===MUR.focus?"focus":""}">
+   <div class="row" style="justify-content:space-between"><h3 class="mh">${esc(e.names.A)} <span>×</span> ${esc(e.names.B)}</h3><span class="label">${leftTxt(e.at)}</span></div>
+   <p class="note">${esc((e.champs||[]).join(" + "))}</p>
+   <div class="mgrid">${col("A")}${col("B")}</div>
+   <div class="row"><button class="btn ghost small" data-act="mcopy" data-id="${e.id}">${MUR.copied===e.id?"Link copiado!":"Copiar link desta votação"}</button></div>
+  </article>`};
+ return `<div class="row"><button class="btn ghost small" data-act="home">← Menu</button><span class="label">Mural de votação</span></div>
+ <section class="panel"><h2 style="font-size:28px;text-transform:uppercase">Qual time ganharia?</h2>
+  <p class="note">Cada racha publicado fica 24 horas no ar. Qualquer pessoa com o link vota uma vez em cada um e pode mudar o voto.</p></section>
+ ${S.net?`<p class="note warn">${esc(S.net)}</p>`:""}
+ ${st==="loading"?`<p class="note">Carregando o mural…</p>`:st==="error"?`<p class="note warn">Não consegui abrir o mural agora. Verifique a internet e tente de novo.</p>`:st==="off"?`<p class="note warn">O mural precisa de internet e, no Claude, da sua conta.</p>`:""}
+ ${ents.length?ents.map(card).join(""):st==="ready"?`<p class="note">Nenhum racha publicado nas últimas 24 horas. No fim de uma partida, toque em <b>Publicar no mural</b>.</p>`:""}`;
+}
 /* telas */
 function home(){
  const saved=lsGet();const off=S.dbState==="off";
@@ -521,6 +663,7 @@ function home(){
   <button class="mbtn" data-play="online" ${off?"disabled":""}><span class="mi">${ICON.online}</span><span><b>Online com amigo</b><small>Cria uma sala e cada um joga no seu celular</small></span></button>
   <button class="mbtn" data-act="toJoin" ${off?"disabled":""}><span class="mi">${ICON.join}</span><span><b>Entrar numa sala</b><small>Recebeu um código? Entre por aqui</small></span></button>
   <button class="mbtn" data-play="local"><span class="mi">${ICON.local}</span><span><b>Na mesma tela</b><small>Os dois times passando o celular</small></span></button>
+  <button class="mbtn" data-act="mural"><span class="mi">${ICON.mural}</span><span><b>Mural de votação</b><small>Rachas publicados nas últimas 24 horas</small></span></button>
  </nav>
  ${saved&&!off?`<div class="panel row" style="justify-content:space-between"><span>Você estava na sala <b class="codetxt">${esc(saved.code)}</b></span><button class="btn small" data-act="rejoin">Voltar para a sala</button></div>`:""}
  ${off?`<p class="note" style="text-align:center">${STANDALONE?"Não consegui carregar o modo online. Verifique a internet e recarregue a página.":"O modo online precisa que você esteja na sua conta do Claude e com acesso de Contribuidor a este jogo."}</p>`:""}`;
@@ -648,7 +791,7 @@ function field(t,interactive){
   <div class="pitch"><div class="lines">${rows.map(r=>`<div class="lr">${r.map(lbl=>{const i=idx++;const pk=S.lineup[t][i];
    if(pk!==null&&pk!==undefined){const p=S.pool[pk];const fr=S.lastFill&&S.lastFill.t===t&&S.lastFill.i===i;
     const ch=M&&M.type==="troca"&&M.step===1&&t===M.t&&M.mine===i;
-    const inner=`<span class="dot">${esc(initials(p.name))}</span><span class="sn">${esc(p.name)}</span>`;
+    const off=!fits(p,lbl);const inner=`<span class="dot ${off?"off":""}">${esc(initials(p.name))}</span><span class="sn">${esc(p.name)}</span><span class="sp ${off?"off":""}" title="${off?"Jogando improvisado":""}">${pdet(p).join("/")}</span>`;
     if(swapOn)return `<button class="slot filled swap" data-swap="${i}" data-team="${t}" title="${esc(p.name)}">${inner}</button>`;
     if(arr)return `<button class="slot filled mv ${S.move&&S.move.t===t&&S.move.i===i?"chosen":""} ${fr?"fresh":""}" data-mv="${i}" data-team="${t}" title="Mover ${esc(p.name)}">${inner}</button>`;
     return `<div class="slot filled ${fr?"fresh":""} ${ch?"chosen":""}" title="${esc(p.name)}">${inner}</div>`}
@@ -691,7 +834,7 @@ function draft(){
  const list=S.pool.filter(p=>!p.taken&&(filter==="ALL"||p.pos===filter));
  const left=S.pool.filter(p=>!p.taken).length;
  const pickOff=!!S.reveal||(M?(M.type!=="bonus"||M.card==="surpresa"):(!!S.pending||t===null||!controls(t)));
- const plBtn=(p,attr)=>`<button class="pl" ${attr} ${pickOff&&!attr.startsWith("data-gk")?"disabled":""}><span class="pos">${p.pos}</span><span class="nm"><b>${esc(p.name)}</b><small>${p.tags.join(" · ")}</small></span></button>`;
+ const plBtn=(p,attr)=>`<button class="pl" ${attr} ${pickOff&&!attr.startsWith("data-gk")?"disabled":""} title="${pdet(p).map(x=>POSNAME[x]).join(", ")}"><span class="pos">${pdet(p).join("/")}</span><span class="nm"><b>${esc(p.name)}</b><small>${p.tags.join(" · ")}</small></span></button>`;
  const poolSec=M&&M.type==="goleiro"
   ?`<section class="panel"><div class="pool-head"><span class="label">Todos os goleiros campeões · ${M.list.length}</span></div>
     <div class="pool">${M.list.map((k,j)=>plBtn(ALL.get(k),`data-gk="${j}"`)).join("")}</div></section>`
@@ -699,6 +842,7 @@ function draft(){
   <div class="pool-head"><span class="label">Disponíveis · ${left}</span>
    <div class="filters" role="group" aria-label="Filtrar por posição">${["ALL",...POS_ORDER].map(f=>`<button data-filter="${f}" aria-pressed="${filter===f}" ${lockPos?"disabled":""}>${f==="ALL"?"Todos":f}</button>`).join("")}</div></div>
   <div class="pool">${list.map(p=>plBtn(p,`data-pick="${p.i}" aria-pressed="${S.sel===p.i}"`)).join("")||`<p class="note">Ninguém nessa posição.</p>`}</div>
+  <p class="legend">GOL goleiro · LD/LE laterais · ZAG zagueiro · VOL volante · MC meio-campo · MEI meia · PD/PE pontas · CA centroavante</p>
  </section>`;
  let ov="";
  if(S.reveal){const r=S.reveal,N=esc(S.names[r]),can=turn()===r&&usable(r);
@@ -742,7 +886,8 @@ function vote(){
  <div class="grid2">${field("A",false)}${field("B",false)}</div>
  ${left.length?`<section class="panel"><span class="label">Sobraram (${left.length})</span><div class="leftover" style="margin-top:8px">${left.map(p=>`<span>${esc(p.name)}</span>`).join("")}</div></section>`:""}
  <div class="row">${on?(S.seat==="A"?`<button class="btn" data-act="again">Novo racha</button>`:"")+`<button class="btn ghost small" data-act="leave">Sair da sala</button>`
-   :`<button class="btn ghost" data-act="backDraft">← Voltar à escolha</button><button class="btn" data-act="again">Novo racha</button>`}</div>`;
+   :`<button class="btn ghost" data-act="backDraft">← Voltar à escolha</button><button class="btn" data-act="again">Novo racha</button>`}</div>
+ ${!on||S.seat==="A"?`<section class="panel row" style="justify-content:space-between"><span><b>Mural de votação</b><br><span class="note">Publica os dois times por 24 horas para todo mundo votar.</span></span><button class="btn" data-act="publish">${S.publishedId?"Ver no mural":"Publicar no mural (24h)"}</button></section>`:""}`;
 }
 
 function render(){
@@ -750,7 +895,7 @@ function render(){
  const head=S.screen==="home"
   ?`<header class="brand"><h1 style="margin:0"><img src="${LOGO_MAIN}" alt="Racha dos Campeões" width="585" height="385"></h1><p>Tire o time com os titulares das finais que valeram taça.</p></header>`
   :`<header class="brand compact"><img src="${LOGO_ICON}" alt="" width="140" height="133"><b><span>Racha dos</span> Campeões</b>${S.room?`<span class="roomtag">Sala ${esc(S.room)}</span>`:""}</header>`;
- const screens={home,setup,join,lobby,start:startScreen,draft,vote};
+ const screens={home,setup,join,lobby,start:startScreen,draft,vote,mural};
  app.innerHTML=head+(screens[S.screen]||home)();
  S.lastFill=null;
  scheduleBot();
@@ -794,11 +939,15 @@ document.addEventListener("click",e=>{
  else if(d.gk!==undefined){const M=S.cmode;if(!M||M.type!=="goleiro")return;S.cmode=null;doGoleiro(M.t,M.list[+d.gk]);commit()}
  else if(d.use){if(S.pending===d.use&&!S.cmode&&controls(d.use)){S.reveal=d.use;S.peek=true}}
  else if(d.peek){if(!S.cmode&&!S.reveal&&controls(d.peek)){S.reveal=d.peek;S.peek=false}}
+ else if(d.mvote){muralVote(d.id,d.mvote);return}
  else if(d.vote){if(S.play==="online"){if(!ME||!DB)return;S.vmap={...(S.vmap||{}),[ME]:d.vote};const ref=DB.doc("rooms/"+S.room);
    writeQ=writeQ.then(()=>ref.update({vmap:{[ME]:d.vote}})).catch(()=>{S.net="Não deu para registrar o voto.";render()})}
   else S.votes[d.vote]++}
  else if(act){const A={
-  home(){S.screen="home";S.net=null},
+  home(){S.screen="home";S.net=null;try{if(location.hash.startsWith("#mural"))history.replaceState(null,"",location.pathname+location.search)}catch(e){}},
+  mural(){S.net=null;openMural(null);return "norender"},
+  publish(){publishMural();return "norender"},
+  mcopy(){const id=d.id,u=muralLink(id);MUR.copied=id;try{navigator.clipboard.writeText(u).then(()=>render(),()=>{b.textContent=u})}catch(e){b.textContent=u}return "norender"},
   toJoin(){S.screen="join";S.joinErr=null},
   join(){joinRoom()},
   rejoin(){const s=lsGet();if(!s)return;S.play="online";S.room=s.code;S.seat=s.seat;subscribe(s.code)},
@@ -849,7 +998,8 @@ async function connect(){
  }catch(e){S.dbState="off"}
  render();
 }
-function start(data){S=data&&data.S?data.S:fresh();S.dbState=S.dbState||"wait";render();connect()}
+function start(data){S=data&&data.S?data.S:fresh();S.dbState=S.dbState||"wait";render();
+ connect().then(()=>{const m=(location.hash||"").match(/^#mural-([a-z0-9]+)$/);if(m)openMural(m[1])})}
 window.claude?.hot?.snapshot?.(()=>({S}));
 window.claude?.hot?.ready?window.claude.hot.ready(start):start(window.claude?.hot?.data??{});
 </script>
