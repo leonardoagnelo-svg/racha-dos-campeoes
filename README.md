@@ -4,7 +4,7 @@ Tira-time de futebol com os titulares das finais que valeram taça (Copa do Mund
 
 ## Como jogar
 - **Contra o robô** ou **na mesma tela**: abra o `index.html` no navegador ou pelo GitHub Pages.
-- **Online com amigo**: funciona dentro do Claude, onde a sala é salva.
+- **Online com amigo**: quem cria a sala recebe um código de 4 letras; o amigo abre o mesmo link e entra com o código. Quem criou a sala precisa deixar o jogo aberto até o fim.
 
 ## Regras
 - Cada campeão escolhido entra com os 11 titulares da final. Quem entrou durante o jogo vira Jogador surpresa.
