@@ -210,6 +210,9 @@ h2{background:var(--gold-grad);-webkit-background-clip:text;background-clip:text
 .tovr{display:inline-block;font-size:15px;font-style:normal;font-weight:900;background:var(--gold-grad);color:#0B0F14;border-radius:6px;padding:2px 7px;vertical-align:middle;-webkit-text-fill-color:#0B0F14}
 .ovrline{margin:0;font-size:15px}
 .mo{color:var(--gold)}
+.invite{display:flex;flex-direction:column;gap:8px;align-items:center;width:100%;max-width:520px}
+.linkbox{width:100%;box-sizing:border-box;background:var(--bg);border:1px solid var(--slate);color:var(--chalk);border-radius:6px;padding:10px;font:inherit;font-size:13px;text-align:center}
+a.btn{text-decoration:none;display:inline-block}
 .slot.filled .dot.off{box-shadow:0 0 0 3px var(--warn)}
 .legend{margin:10px 0 0;font-size:11.5px;color:var(--muted)}
 .mcard{display:flex;flex-direction:column;gap:10px}
@@ -613,7 +616,7 @@ async function joinRoom(){
   if(d.hostUid===ME)S.seat="A";
   else if(!d.guestUid||d.guestUid===ME){S.seat="B";await ref.update({guestUid:ME,names:{B:name},form:{B:form}})}
   else S.seat=null;
-  lsSet({code,seat:S.seat});subscribe(code)}
+  lsSet({code,seat:S.seat});S.invited=false;try{if(location.hash.startsWith("#sala"))history.replaceState(null,"",location.pathname+location.search)}catch(e){}subscribe(code)}
  catch(e){S.joinErr=e&&e.code==="invalid_argument"?"Seu acesso a este jogo não permite jogar online. Peça ao dono para compartilhar com você como Contribuidor.":"Não deu para entrar. Verifique a conexão.";render()}}
 function leaveRoom(){if(unsub)unsub();unsub=null;lsSet(null);const keep={names:{A:S.names.A,B:"Time Prata"},form:S.form,order:S.order,start:S.start,comp:S.comp,selected:S.selected,dbState:S.dbState};S=Object.assign(fresh(),keep)}
 
@@ -658,6 +661,7 @@ async function publishMural(){
 async function muralVote(id,t){if(!ME)return;(MUR.votes[id]||(MUR.votes[id]={}))[ME]=t;render();
  try{if(STANDALONE){const c=await muralConn();muralPub(c,MURAL+"/"+id+"/v/"+ME,{t,at:Date.now()})}
   else if(DB)await DB.collection("mural").doc(id).update({votes:{[ME]:t}})}catch(e){S.net="Não consegui registrar o voto.";render()}}
+const inviteLink=c=>location.href.split("#")[0]+"#sala-"+c;
 const muralLink=id=>location.href.split("#")[0]+"#mural-"+id;
 function leftTxt(at){const ms=at+DAY-Date.now();const h=Math.floor(ms/36e5),m=Math.floor(ms%36e5/6e4);return ms<=0?"encerrada":h>0?`fica mais ${h}h${m?` ${m}min`:""} no ar`:`fica mais ${m}min no ar`}
 function mural(){
@@ -745,7 +749,8 @@ function join(){
  return `<div class="row"><button class="btn ghost small" data-act="home">← Menu</button><span class="label">Entrar numa sala</span></div>
  <section class="panel joinbox">
   <label class="label" for="joinCode">Código da sala</label>
-  <input id="joinCode" class="codein" maxlength="4" autocomplete="off" placeholder="ABCD" value="">
+  ${S.invited?`<p class="note">Você foi convidado para a sala <b class="codetxt">${esc(S.joinCode)}</b>. Coloque o nome do seu time e toque em Entrar.</p>`:""}
+  <input id="joinCode" class="codein" maxlength="4" autocomplete="off" placeholder="ABCD" value="${esc(S.joinCode||"")}">
   <label class="label" for="joinName">Nome do seu time</label>
   <input id="joinName" maxlength="28" value="${esc(S.names.B==="Aguardando…"?"Time Prata":S.names.B)}">
   <label class="label" for="joinForm">Sua formação</label>
@@ -760,8 +765,15 @@ function lobby(){
  return `<section class="panel lobby">
   <span class="label">Código da sala</span>
   <div class="bigcode">${esc(S.room)}</div>
-  <button class="btn ghost small" data-act="copyCode">Copiar código</button>
-  <p class="note">Seu amigo abre este mesmo jogo, toca em <b>Entrar numa sala</b> e digita o código.${STANDALONE&&S.seat==="A"?" Deixe o jogo aberto até o fim: a partida passa pelo seu aparelho.":""}</p>
+  <div class="invite">
+   <span class="label">Convide pelo link</span>
+   <input id="inviteLink" class="linkbox" readonly value="${esc(inviteLink(S.room))}" aria-label="Link do convite">
+   <div class="row" style="justify-content:center">
+    <button class="btn" data-act="shareInvite">${S.shareMsg||"Copiar link do convite"}</button>
+    <a class="btn ghost" href="https://wa.me/?text=${encodeURIComponent("Bora um Racha dos Campeões? Entra na minha sala: "+inviteLink(S.room))}" target="_blank" rel="noopener">Mandar no WhatsApp</a>
+   </div>
+  </div>
+  <p class="note">Quem abrir o link já cai na sala, é só colocar o nome do time. Também dá para entrar pelo código, em <b>Entrar numa sala</b>.${STANDALONE&&S.seat==="A"?" Deixe o jogo aberto até o fim: a partida passa pelo seu aparelho.":""}</p>
   <div class="vs"><div class="A"><span class="label">Time 1</span><b>${esc(S.names.A)}</b><small>${S.form.A}</small></div><span class="x">×</span>
    <div class="B"><span class="label">Time 2</span><b>${g?esc(S.names.B):"Aguardando amigo…"}</b><small>${g?S.form.B:""}</small></div></div>
   <p class="note">${S.start==="poi"?"Quem começa sai no par ou ímpar.":"Quem começa sai no sorteio."} ${S.selected.map(id=>SQUADS.find(s=>s.id===id).n).join(" + ")}.</p>
@@ -986,6 +998,9 @@ document.addEventListener("click",e=>{
    Object.assign(S,gameReset());S.screen="start"},
   cancelEdit(){S.hostEditing=false;subscribe(S.room)},
   lobbyGo(){S.poi={step:0,choice:null,numA:null,numB:null};S.coin=null;S.screen="start";commit()},
+  shareInvite(){const u=inviteLink(S.room);const done=m=>{S.shareMsg=m;render();setTimeout(()=>{S.shareMsg=null;render()},2500)};
+   const copy=()=>{try{navigator.clipboard.writeText(u).then(()=>done("Link copiado!"),()=>{const el=document.getElementById("inviteLink");el.select();done("Selecione e copie o link")})}catch(e){done("Selecione e copie o link")}};
+   if(navigator.share&&STANDALONE){navigator.share({title:"Racha dos Campeões",text:"Entra na minha sala do Racha dos Campeões:",url:u}).catch(copy)}else copy();return "norender"},
   copyCode(){const c=S.room;try{navigator.clipboard.writeText(c).then(()=>{b.textContent="Copiado!"},()=>{b.textContent=c})}catch(e){b.textContent=c}return "norender"},
   leave(){leaveRoom()},
   back(){S.screen="setup"},
@@ -1025,7 +1040,8 @@ async function connect(){
  render();
 }
 function start(data){S=data&&data.S?data.S:fresh();S.dbState=S.dbState||"wait";render();
- connect().then(()=>{const m=(location.hash||"").match(/^#mural-([a-z0-9]+)$/);if(m)openMural(m[1])})}
+ connect().then(()=>{const h=location.hash||"";const m=h.match(/^#mural-([a-z0-9]+)$/);if(m)return openMural(m[1]);
+  const r=h.match(/^#sala-([A-Za-z]{4})$/);if(r&&!(S.room&&S.room===r[1].toUpperCase())){S.joinCode=r[1].toUpperCase();S.invited=true;S.screen="join";S.joinErr=null;render()}})}
 window.claude?.hot?.snapshot?.(()=>({S}));
 window.claude?.hot?.ready?window.claude.hot.ready(start):start(window.claude?.hot?.data??{});
 </script>
