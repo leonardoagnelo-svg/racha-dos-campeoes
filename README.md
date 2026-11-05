@@ -14,4 +14,4 @@ Tira-time de futebol com os titulares das finais que valeram taça (Copa do Mund
 - No fim, todo mundo vota em qual time ganharia.
 - Posições detalhadas (laterais, pontas, centroavante...), com todas as posições de quem joga em mais de uma.
 - Mural de votação: publique os dois times por 24 horas para qualquer pessoa votar.
-- 102 campeões, com todos os Brasileirões e Champions desde 1990.
+- 112 campeões: todas as Copas do Mundo (1930–2022) e todos os Brasileirões e Champions desde 1990, em ordem de ano.
