@@ -9,6 +9,6 @@ Tira-time de futebol com os titulares das finais que valeram taça (Copa do Mund
 ## Regras
 - Cada campeão escolhido entra com os 11 titulares da final. Quem entrou durante o jogo vira Jogador surpresa.
 - Quem começa sai no par ou ímpar ou no sorteio. A ordem pode ser alternada ou em cobrinha.
-- No 5º jogador, cada time tira uma cartinha surpresa: Troca, Jogador surpresa, Goleiro ou Mesma posição.
-- Dá para trocar a formação e mudar jogadores de posição durante a escolha.
+- No 5º jogador, cada time tira uma cartinha surpresa e usa na hora: Troca, Jogador surpresa, Goleiro ou Mesma posição.
+- Dá para trocar a formação (16 opções) e mudar jogadores de posição a qualquer momento da escolha.
 - No fim, todo mundo vota em qual time ganharia.
