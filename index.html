@@ -399,7 +399,7 @@ function fresh(){return Object.assign({screen:"home",play:"local",seat:null,room
 const CARDS={
  troca:{n:1,t:"Troca",d:"Troque um jogador seu por um do adversário. Cada um vai para a posição do outro."},
  surpresa:{n:2,t:"Jogador surpresa",d:"O sistema sorteia um jogador que entrou durante a final e ele vai para o seu time sem gastar sua escolha."},
- goleiro:{n:3,t:"Goleiro",d:"Escolha qualquer goleiro de todos os elencos campeões. Se você já tinha goleiro, ele volta para a lista."},
+ goleiro:{n:3,t:"Goleiro",d:"Escolha um dos goleiros ainda disponíveis na lista e ele vai para o seu gol sem gastar sua escolha. Se você já tinha goleiro, ele volta para a lista."},
  mesma:{n:4,t:"Mesma posição",d:"Pegue mais um jogador da mesma posição que o adversário escolheu por último, sem gastar sua escolha."}
 };
 const STARS=new Set(["Lamine Yamal","Pedri","Nico Williams","Dani Olmo","Beckenbauer","Gerd Müller","Bobby Charlton","Bobby Moore","Kempes","Passarella","Paolo Rossi","Zoff","Matthäus","Klinsmann","Meazza","Schiaffino","Obdulio Varela","Ghiggia","Fritz Walter","Piola","Banks","Maier","Breitner","Hurst","Fillol","Scirea","Brehme","Baresi","Van Basten","Gullit","Rijkaard","Stoichkov","Laudrup","Koeman","Guardiola","Litmanen","Kluivert","Davids","Vialli","Sammer","Beckham","Schmeichel","Kahn","Effenberg","Shevchenko","Rui Costa","Deco","Edmundo","Marcelinho Carioca","Neto","Túlio","Robinho","Fred","Conca","Dembélé","Kvaratskhelia","Hakimi","Vitinha","Petković","Adriano Imperador","Hernanes","Rincón","Juninho Pernambucano","Ricardinho","Redondo","Möller","Overmars","Savićević","Prosinečki","Abedi Pelé","Völler","Paulo Sousa","Maldini","Zidane","Garrincha","Maradona","Zico","Cannavaro","Buffon","Totti","Gerrard","Drogba","Lampard","Ribéry","Robben","Vinícius Júnior","Bellingham","Figo","Raúl","Didi","Vavá","Nílton Santos","Djalma Santos","Hulk","Luis Suárez","Endrick","Rooney","Sneijder","Milito","Courtois","Van der Sar","Junior Baiano","Marcos","Pelé","Messi","Cristiano Ronaldo","Ronaldo","Ronaldinho","Romário","Rivaldo","Kaká","Neymar","Xavi","Iniesta","Maldini","Pirlo","Casillas","Neuer","Lahm","Kroos","Modric","Mbappé","Griezmann","Kanté","Haaland","De Bruyne","Rodri","Salah","Van Dijk","Alisson","Lewandowski","Müller","Benzema","Sergio Ramos","Puyol","Piqué","Busquets","Cafu","Roberto Carlos","Taffarel","Carlos Alberto Torres","Jairzinho","Tostão","Rivellino","Gérson","Di María","Bale","Marcelo","Henry","Eto'o","Seedorf","Nesta","Gabigol","Arrascaeta","Raí","Rogério Ceni","Pogba","Lloris","Schweinsteiger","Özil","Klose","Dunga","Bebeto","Lúcio","Emiliano Martínez","Julián Álvarez","Thiago Silva","Dani Alves","Ganso","Alex","Luis Suárez","Casemiro","Bernardo Silva","Davies","Kimmich","Alexander-Arnold","Valdés"]);
@@ -443,7 +443,7 @@ function surprisePool(){const inPool=o=>S.pool.some(p=>keyOf(p)===keyOf(o));
  const res=[];S.selected.forEach(id=>SQUADS.find(s=>s.id===id).p.split(",").filter(e=>e[0]==="*").forEach(e=>{const k=e.slice(1).split(":");const o=ALL.get(k[0]+"|"+k[1]);if(o&&!inPool(o)&&!res.includes(o))res.push(o)}));
  if(res.length)return res;
  return [...ALL.values()].filter(o=>!inPool(o)&&SQUADS.some(s=>s.p.split(",").includes("*"+o.name+":"+o.pos)))}
-const gkList=()=>[...ALL.values()].filter(o=>o.pos==="GOL"&&!S.pool.some(p=>keyOf(p)===keyOf(o)&&p.taken));
+const gkList=()=>S.pool.filter(p=>!p.taken&&pdet(p).includes("GOL")).map(p=>ALL.get(keyOf(p))||p);
 function usable(t){const c=S.cards[t];if(!c||c.used)return false;
  if(c.id==="troca")return count(t)>0&&count(other(t))>0;
  if(c.id==="surpresa")return surprisePool().length>0;
@@ -825,7 +825,7 @@ function banner(t){
  const M=S.cmode,sel=S.sel!==null?S.pool[S.sel]:null,cancel="";
  if(M){const N=esc(S.names[M.t]);let msg="";
   if(M.type==="troca")msg=M.step===0?`<span>Troca · ${N}: toque num jogador seu</span>${cancel}`:`<span>Troca · agora toque no jogador de ${esc(S.names[other(M.t)])} que vem para o seu time</span>${cancel}`;
-  else if(M.type==="goleiro")msg=`<span>Goleiro · ${N}: escolha qualquer goleiro campeão</span>${cancel}`;
+  else if(M.type==="goleiro")msg=`<span>Goleiro · ${N}: escolha um dos goleiros disponíveis</span>${cancel}`;
   else if(M.card==="surpresa")msg=`<span>Jogador surpresa de ${N}: ${esc(sel.name)} (${sel.pos})</span><span>Toque numa posição do campo</span>`;
   else msg=sel?`<span>Mesma posição · ${esc(sel.name)}</span><span>Toque numa posição do campo</span>`:`<span>Mesma posição · ${N}: escolha um ${M.pos} da lista</span>`;
   return `<div class="turn ${M.t}">${msg}</div>`}
@@ -849,7 +849,7 @@ function draft(){
  const pickOff=!!S.reveal||(M?(M.type!=="bonus"||M.card==="surpresa"):(!!S.pending||t===null||!controls(t)));
  const plBtn=(p,attr)=>`<button class="pl" ${attr} ${pickOff&&!attr.startsWith("data-gk")?"disabled":""} title="${pdet(p).map(x=>POSNAME[x]).join(", ")}"><span class="pos">${pdet(p).join("/")}</span><span class="nm"><b>${esc(p.name)}</b><small>${p.tags.join(" · ")}</small></span></button>`;
  const poolSec=M&&M.type==="goleiro"
-  ?`<section class="panel"><div class="pool-head"><span class="label">Todos os goleiros campeões · ${M.list.length}</span></div>
+  ?`<section class="panel"><div class="pool-head"><span class="label">Goleiros disponíveis · ${M.list.length}</span></div>
     <div class="pool">${M.list.map((k,j)=>plBtn(ALL.get(k),`data-gk="${j}"`)).join("")}</div></section>`
   :`<section class="panel">
   <div class="pool-head"><span class="label">Disponíveis · ${left}</span>
