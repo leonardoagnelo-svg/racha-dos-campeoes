@@ -428,7 +428,7 @@ const POSNAME={GOL:"goleiro",LD:"lateral-direito",LE:"lateral-esquerdo",ZAG:"zag
 const FIT={GOL:"GOL",LD:"LAT",LE:"LAT",ALA:"LAT",ZAG:"ZAG",VOL:"VOL",MEI:"MEI",MD:"MEI",ME:"MEI",PD:"ATA",PE:"ATA",CA:"ATA",ATA:"ATA"};
 const ALL=(()=>{const m=new Map();SQUADS.forEach(sq=>sq.p.split(",").forEach((e,ix)=>{const[name,pos]=e.replace(/^\*/,"").split(":");const k=name+"|"+pos;
  if(!m.has(k))m.set(k,{name,pos,det:detOf(name,pos),tags:[],ovr:0});const it=m.get(k);if(!it.tags.includes(sq.t))it.tags.push(sq.t);it.ovr=Math.max(it.ovr,ovrAt(sq.id,ix))}));return m})();
-const keyOf=p=>p.name+"|"+p.pos;
+const keyOf=p=>(p.sq?p.sq+"|":"")+p.name+"|"+p.pos;
 const other=t=>t==="A"?"B":"A";
 const slots=t=>FORMS[S.form[t]].flat();
 const count=t=>S.lineup[t].filter(x=>x!==null).length;
@@ -437,13 +437,14 @@ const isBot=t=>S.play==="bot"&&t===BOT;
 function controls(t){if(S.play==="local")return true;if(S.play==="bot")return t!==BOT;return S.seat===t}
 const isHost=()=>S.play!=="online"||S.seat==="A";
 
+const yrOf=id=>+(((SQUADS.find(s=>s.id===id)||{}).n||"").match(/\d{4}/)||[0])[0];
 function buildPool(){
- const m=new Map();
- S.selected.forEach(id=>{const sq=SQUADS.find(s=>s.id===id);sq.p.split(",").forEach((e,ix)=>{if(e[0]==="*")return;const [name,pos]=e.split(":");const k=name+"|"+pos;
-  if(!m.has(k))m.set(k,{name,pos,det:detOf(name,pos),tags:[],ovr:0});const it=m.get(k);if(!it.tags.includes(sq.t))it.tags.push(sq.t);it.ovr=Math.max(it.ovr,ovrAt(sq.id,ix))})});
- return [...m.values()].sort((a,b)=>POS_ORDER.indexOf(a.pos)-POS_ORDER.indexOf(b.pos)||a.name.localeCompare(b.name,"pt")).map((p,i)=>({...p,i,taken:null}));
+ const out=[];
+ S.selected.forEach(id=>{const sq=SQUADS.find(s=>s.id===id);sq.p.split(",").forEach((e,ix)=>{if(e[0]==="*")return;const [name,pos]=e.split(":");
+  out.push({name,pos,det:detOf(name,pos),tags:[sq.t],ovr:ovrAt(sq.id,ix),sq:sq.id})})});
+ return out.sort((a,b)=>POS_ORDER.indexOf(a.pos)-POS_ORDER.indexOf(b.pos)||a.name.localeCompare(b.name,"pt")||yrOf(a.sq)-yrOf(b.sq)).map((p,i)=>({...p,i,taken:null}));
 }
-const poolSize=()=>{const k=new Set();S.selected.forEach(id=>SQUADS.find(s=>s.id===id).p.split(",").filter(e=>e[0]!=="*").forEach(e=>k.add(e)));return k.size};
+const poolSize=()=>S.selected.reduce((n,id)=>n+SQUADS.find(s=>s.id===id).p.split(",").filter(e=>e[0]!=="*").length,0);
 function turn(){
  if(!S.lineup.A.length)return null;
  if(full("A")&&full("B"))return null;
@@ -453,12 +454,11 @@ function turn(){
  if(full(t))t=other(t);
  return t;
 }
-function addToPool(o,extra){let i=S.pool.findIndex(p=>keyOf(p)===keyOf(o));if(i>=0)return i;i=S.pool.length;S.pool.push({name:o.name,pos:o.pos,det:pdet(o),tags:[...o.tags],ovr:o.ovr||(ALL.get(keyOf(o))||{}).ovr||78,i,taken:null,...extra});return i}
-function surprisePool(){const inPool=o=>S.pool.some(p=>keyOf(p)===keyOf(o));
- const res=[];S.selected.forEach(id=>SQUADS.find(s=>s.id===id).p.split(",").filter(e=>e[0]==="*").forEach(e=>{const k=e.slice(1).split(":");const o=ALL.get(k[0]+"|"+k[1]);if(o&&!inPool(o)&&!res.includes(o))res.push(o)}));
- if(res.length)return res;
- return [...ALL.values()].filter(o=>!inPool(o)&&SQUADS.some(s=>s.p.split(",").includes("*"+o.name+":"+o.pos)))}
-const gkList=()=>S.pool.filter(p=>!p.taken&&pdet(p).includes("GOL")).map(p=>ALL.get(keyOf(p))||p);
+function addToPool(o,extra){let i=S.pool.findIndex(p=>keyOf(p)===keyOf(o));if(i>=0)return i;i=S.pool.length;S.pool.push({name:o.name,pos:o.pos,det:pdet(o),tags:[...o.tags],ovr:o.ovr||(ALL.get(o.name+"|"+o.pos)||{}).ovr||78,sq:o.sq,i,taken:null,...extra});return i}
+function subsOf(ids){const res=[];SQUADS.filter(s=>ids.includes(s.id)).forEach(sq=>sq.p.split(",").forEach((e,ix)=>{if(e[0]!=="*")return;const [name,pos]=e.slice(1).split(":");
+  const o={name,pos,det:detOf(name,pos),tags:[sq.t],ovr:ovrAt(sq.id,ix),sq:sq.id};if(!S.pool.some(p=>keyOf(p)===keyOf(o)))res.push(o)}));return res}
+function surprisePool(){const r=subsOf(S.selected);return r.length?r:subsOf(SQUADS.map(s=>s.id))}
+const gkList=()=>S.pool.filter(p=>!p.taken&&pdet(p).includes("GOL"));
 function usable(t){const c=S.cards[t];if(!c||c.used)return false;
  if(c.id==="troca")return count(t)>0&&count(other(t))>0;
  if(c.id==="surpresa")return surprisePool().length>0;
@@ -489,12 +489,12 @@ function place(t,pk,i,via){if(via)S.pending=null;S.lineup[t][i]=pk;S.pool[pk].ta
 function doSwap(t,mine,theirs){const o=other(t),a=S.lineup[t][mine],b=S.lineup[o][theirs];
  S.lineup[t][mine]=b;S.lineup[o][theirs]=a;S.pool[a].taken=o;S.pool[b].taken=t;S.cards[t].used=true;S.pending=null;S.history=[];S.lastFill={t,i:mine};
  S.news=`${S.names[t]} usou Troca: levou ${S.pool[b].name} e deu ${S.pool[a].name}`}
-function doGoleiro(t,key){const idx=addToPool(ALL.get(key));const old=S.lineup[t][0];if(old!==null)S.pool[old].taken=null;
+function doGoleiro(t,idx){const old=S.lineup[t][0];if(old!==null)S.pool[old].taken=null;
  S.lineup[t][0]=idx;S.pool[idx].taken=t;S.cards[t].used=true;S.pending=null;S.history=[];S.lastFill={t,i:0};
  S.news=`${S.names[t]} usou Goleiro: ${S.pool[idx].name} assumiu o gol`;checkDraw(t)}
 function useCard(t){const c=S.cards[t];S.sel=null;S.move=null;if(!usable(t)){loseCard(t);commit();return}
  if(c.id==="troca")S.cmode={type:"troca",t,step:0,mine:null};
- else if(c.id==="goleiro")S.cmode={type:"goleiro",t,list:gkList().map(keyOf)};
+ else if(c.id==="goleiro")S.cmode={type:"goleiro",t,list:gkList().map(p=>p.i)};
  else if(c.id==="surpresa"){const l=surprisePool();const o=l[Math.floor(Math.random()*l.length)];
   S.sel=addToPool(o,{surprise:true});S.cmode={type:"bonus",t,card:"surpresa"};c.used=true;commit()}
  else{S.cmode={type:"bonus",t,card:"mesma",pos:S.lastPos[other(t)]};c.used=true;commit()}}
@@ -505,7 +505,7 @@ function startDraft(){S.pool=buildPool();S.lineup={A:slots("A").map(()=>null),B:
 const bscore=p=>((p.ovr||80)-70)/6+(STARS.has(p.name)?1:0)+Math.random()*1.4;
 function botCard(t){const c=S.cards[t];if(!c||c.used)return;const o=other(t);
  if(!usable(t))return loseCard(t);
- if(c.id==="goleiro"&&S.lineup[t][0]!==null){const l=gkList();const sc=new Map(l.map(g=>[g,bscore(g)]));return doGoleiro(t,keyOf(l.reduce((a,b)=>sc.get(b)>sc.get(a)?b:a)))}
+ if(c.id==="goleiro"&&S.lineup[t][0]!==null){const l=gkList();const sc=new Map(l.map(g=>[g,bscore(g)]));return doGoleiro(t,l.reduce((a,b)=>sc.get(b)>sc.get(a)?b:a).i)}
  if(c.id==="mesma"){const pos=S.lastPos[o];const L=slots(t);if(!emptySlots(t).some(i=>ACC[L[i]].some(x=>DEFDET[pos]===x))){const cand=S.pool.filter(p=>!p.taken&&p.pos===pos);const sc=new Map(cand.map(p=>[p,bscore(p)]));const p=cand.reduce((a,b)=>sc.get(b)>sc.get(a)?b:a);c.used=true;return place(t,p.i,bestSlot(t,pos),"mesma")}}
  if(c.id==="troca"){const sc=pk=>(STARS.has(S.pool[pk].name)?3:1)+(pk%7)/10;
   const theirs=S.lineup[o].map((pk,i)=>({pk,i})).filter(x=>x.pk!==null&&slots(o)[x.i]!=="GOL");const mine=S.lineup[t].map((pk,i)=>({pk,i})).filter(x=>x.pk!==null&&slots(t)[x.i]!=="GOL");
@@ -514,7 +514,7 @@ function botCard(t){const c=S.cards[t];if(!c||c.used)return;const o=other(t);
  if(c.id==="surpresa"){const l=surprisePool();if(!l.length)return;const p=l[Math.floor(Math.random()*l.length)];
   const idx=addToPool(p,{surprise:true});c.used=true;place(t,idx,bestSlot(t,p),"surpresa")}
  else if(c.id==="goleiro"){if(S.lineup[t][0]!==null)return;const l=gkList();if(!l.length)return;
-  const sc=new Map(l.map(g=>[g,bscore(g)]));const g=l.reduce((a,b)=>sc.get(b)>sc.get(a)?b:a);doGoleiro(t,keyOf(g))}
+  const sc=new Map(l.map(g=>[g,bscore(g)]));const g=l.reduce((a,b)=>sc.get(b)>sc.get(a)?b:a);doGoleiro(t,g.i)}
  else if(c.id==="mesma"){const pos=S.lastPos[o];if(!pos)return;const L=slots(t);
   if(!emptySlots(t).some(i=>S.pool.some(p=>!p.taken&&p.pos===pos&&fits(p,L[i]))))return;const cand=S.pool.filter(p=>!p.taken&&p.pos===pos);if(!cand.length)return;
   const sc=new Map(cand.map(p=>[p,bscore(p)]));const p=cand.reduce((a,b)=>sc.get(b)>sc.get(a)?b:a);c.used=true;place(t,p.i,bestSlot(t,pos),"mesma")}
@@ -647,7 +647,7 @@ async function openMural(focus){
     MUR.status="ready";if(S.screen==="mural")render()},()=>{clearTimeout(tm);MUR.status="error";render()});
   } else {MUR.status="off";render()}
  }catch(e){MUR.status="error";render()}}
-function teamList(t){const L=slots(t);return L.map((lbl,i)=>{const pk=S.lineup[t][i];const p=pk==null?null:S.pool[pk];return p?[lbl,p.name,pdet(p).join("/"),effOvr(p,lbl)]:[lbl,"—","",0]})}
+function teamList(t){const L=slots(t);return L.map((lbl,i)=>{const pk=S.lineup[t][i];const p=pk==null?null:S.pool[pk];return p?[lbl,p.name+(p.tags&&p.tags[0]?" ("+p.tags[0]+")":""),pdet(p).join("/"),effOvr(p,lbl)]:[lbl,"—","",0]})}
 async function publishMural(){
  if(S.publishedId)return openMural(S.publishedId);
  const id=Math.random().toString(36).slice(2,10);
@@ -828,7 +828,7 @@ function field(t,interactive){
   <div class="pitch"><div class="lines">${rows.map(r=>`<div class="lr">${r.map(lbl=>({lbl,i:idx++})).reverse().map(({lbl,i})=>{const pk=S.lineup[t][i];
    if(pk!==null&&pk!==undefined){const p=S.pool[pk];const fr=S.lastFill&&S.lastFill.t===t&&S.lastFill.i===i;
     const ch=M&&M.type==="troca"&&M.step===1&&t===M.t&&M.mine===i;
-    const off=!fits(p,lbl);const ov=showOvr()?`<span class="ov ${off?"off":""}" title="Overall na campanha${off?" (−"+PEN+" improvisado)":""}">${effOvr(p,lbl)}</span>`:"";const inner=`${ov}<span class="dot ${off?"off":""}">${esc(initials(p.name))}</span><span class="sn">${esc(p.name)}</span><span class="sp ${off?"off":""}" title="${off?"Jogando improvisado":""}">${pdet(p).join("/")}</span>`;
+    const off=!fits(p,lbl);const ov=showOvr()?`<span class="ov ${off?"off":""}" title="Overall na campanha${off?" (−"+PEN+" improvisado)":""}">${effOvr(p,lbl)}</span>`:"";const inner=`${ov}<span class="dot ${off?"off":""}">${esc(initials(p.name))}</span><span class="sn">${esc(p.name)}</span><span class="sp ${off?"off":""}" title="${off?"Jogando improvisado":""}">${pdet(p).join("/")}${p.tags&&p.tags[0]?` · ${esc(p.tags[0])}`:""}</span>`;
     if(swapOn)return `<button class="slot filled swap" data-swap="${i}" data-team="${t}" title="${esc(p.name)}">${inner}</button>`;
     if(arr)return `<button class="slot filled mv ${S.move&&S.move.t===t&&S.move.i===i?"chosen":""} ${fr?"fresh":""}" data-mv="${i}" data-team="${t}" title="Mover ${esc(p.name)}">${inner}</button>`;
     return `<div class="slot filled ${fr?"fresh":""} ${ch?"chosen":""}" title="${esc(p.name)}">${inner}</div>`}
@@ -874,7 +874,7 @@ function draft(){
  const plBtn=(p,attr)=>`<button class="pl" ${attr} ${pickOff&&!attr.startsWith("data-gk")?"disabled":""} title="${pdet(p).map(x=>POSNAME[x]).join(", ")}"><span class="pos">${pdet(p).join("/")}</span><span class="nm"><b>${esc(p.name)}</b><small>${p.tags.join(" · ")}</small></span></button>`;
  const poolSec=M&&M.type==="goleiro"
   ?`<section class="panel"><div class="pool-head"><span class="label">Goleiros disponíveis · ${M.list.length}</span></div>
-    <div class="pool">${M.list.map((k,j)=>plBtn(ALL.get(k),`data-gk="${j}"`)).join("")}</div></section>`
+    <div class="pool">${M.list.map((k,j)=>plBtn(S.pool[k],`data-gk="${j}"`)).join("")}</div></section>`
   :`<section class="panel">
   <div class="pool-head"><span class="label">Disponíveis · ${left}</span>
    <div class="filters" role="group" aria-label="Filtrar por posição">${["ALL",...POS_ORDER].map(f=>`<button data-filter="${f}" aria-pressed="${filter===f}" ${lockPos?"disabled":""}>${f==="ALL"?"Todos":f}</button>`).join("")}</div></div>
