@@ -15,4 +15,4 @@ Tira-time de futebol com os titulares das finais que valeram taça (Copa do Mund
 - Posições detalhadas (laterais, pontas, centroavante...), com todas as posições de quem joga em mais de uma.
 - Mural de votação: publique os dois times por 24 horas para qualquer pessoa votar.
 - 113 campeões: todas as Copas do Mundo (1930–2026) e todos os Brasileirões e Champions desde 1990, em ordem de ano.
-- Overall de cada jogador pela campanha daquele título, revelado só quando os dois times fecham. Jogador improvisado perde 6 pontos.
+- Overall de cada jogador pela campanha daquele título, revelado só quando os dois times fecham. Jogador improvisado perde 2 pontos em posição parecida (zagueiro/volante/lateral, lateral/ponta, ponta/centroavante), 0 entre meio-campo, meia e volante, e 6 nas demais.
