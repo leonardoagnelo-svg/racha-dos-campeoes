@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-cache">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 </head><body>
 <title>Racha dos Campeões</title>
@@ -210,6 +211,7 @@ h2{background:var(--gold-grad);-webkit-background-clip:text;background-clip:text
 .tovr{display:inline-block;font-size:15px;font-style:normal;font-weight:900;background:var(--gold-grad);color:#0B0F14;border-radius:6px;padding:2px 7px;vertical-align:middle;-webkit-text-fill-color:#0B0F14}
 .ovrline{margin:0;font-size:15px}
 .mo{color:var(--gold)}
+.ver{margin:8px 0 0;text-align:center;font-size:11px;color:var(--muted);opacity:.7}
 .invite{display:flex;flex-direction:column;gap:8px;align-items:center;width:100%;max-width:520px}
 .linkbox{width:100%;box-sizing:border-box;background:var(--bg);border:1px solid var(--slate);color:var(--chalk);border-radius:6px;padding:10px;font:inherit;font-size:13px;text-align:center}
 a.btn{text-decoration:none;display:inline-block}
@@ -437,11 +439,13 @@ const isBot=t=>S.play==="bot"&&t===BOT;
 function controls(t){if(S.play==="local")return true;if(S.play==="bot")return t!==BOT;return S.seat===t}
 const isHost=()=>S.play!=="online"||S.seat==="A";
 
+const CAB={copa:"Copa",liberta:"Liberta",mundial:"Mundial",brasil:"Brasileirão",champions:"Champions"};
+const tagOf=sq=>sq.t+" "+(CAB[sq.c[0]]||"");
 const yrOf=id=>+(((SQUADS.find(s=>s.id===id)||{}).n||"").match(/\d{4}/)||[0])[0];
 function buildPool(){
  const out=[];
  S.selected.forEach(id=>{const sq=SQUADS.find(s=>s.id===id);sq.p.split(",").forEach((e,ix)=>{if(e[0]==="*")return;const [name,pos]=e.split(":");
-  out.push({name,pos,det:detOf(name,pos),tags:[sq.t],ovr:ovrAt(sq.id,ix),sq:sq.id})})});
+  out.push({name,pos,det:detOf(name,pos),tags:[tagOf(sq)],ovr:ovrAt(sq.id,ix),sq:sq.id})})});
  return out.sort((a,b)=>POS_ORDER.indexOf(a.pos)-POS_ORDER.indexOf(b.pos)||a.name.localeCompare(b.name,"pt")||yrOf(a.sq)-yrOf(b.sq)).map((p,i)=>({...p,i,taken:null}));
 }
 const poolSize=()=>S.selected.reduce((n,id)=>n+SQUADS.find(s=>s.id===id).p.split(",").filter(e=>e[0]!=="*").length,0);
@@ -456,7 +460,7 @@ function turn(){
 }
 function addToPool(o,extra){let i=S.pool.findIndex(p=>keyOf(p)===keyOf(o));if(i>=0)return i;i=S.pool.length;S.pool.push({name:o.name,pos:o.pos,det:pdet(o),tags:[...o.tags],ovr:o.ovr||(ALL.get(o.name+"|"+o.pos)||{}).ovr||78,sq:o.sq,i,taken:null,...extra});return i}
 function subsOf(ids){const res=[];SQUADS.filter(s=>ids.includes(s.id)).forEach(sq=>sq.p.split(",").forEach((e,ix)=>{if(e[0]!=="*")return;const [name,pos]=e.slice(1).split(":");
-  const o={name,pos,det:detOf(name,pos),tags:[sq.t],ovr:ovrAt(sq.id,ix),sq:sq.id};if(!S.pool.some(p=>keyOf(p)===keyOf(o)))res.push(o)}));return res}
+  const o={name,pos,det:detOf(name,pos),tags:[tagOf(sq)],ovr:ovrAt(sq.id,ix),sq:sq.id};if(!S.pool.some(p=>keyOf(p)===keyOf(o)))res.push(o)}));return res}
 function surprisePool(){const r=subsOf(S.selected);return r.length?r:subsOf(SQUADS.map(s=>s.id))}
 const gkList=()=>S.pool.filter(p=>!p.taken&&pdet(p).includes("GOL"));
 function usable(t){const c=S.cards[t];if(!c||c.used)return false;
@@ -532,6 +536,7 @@ function scheduleBot(){if(S.play!=="bot"||botTimer)return;
  botTimer=setTimeout(()=>{botTimer=null;if(S.screen==="draft"&&turn()===BOT&&!S.reveal&&!S.cmode&&!S.pending){botMove();render()}},1100)}
 
 /* online fora do Claude: servidor público de mensagens, o anfitrião guarda a sala */
+const VERSION="19";
 const BROKERS=["wss://broker.emqx.io:8084/mqtt","wss://broker.hivemq.com:8884/mqtt"];
 const TOPIC=c=>"racha-dos-campeoes/v1/"+c;
 let MQ=null,STANDALONE=false;const ROOMS={};
@@ -934,7 +939,7 @@ function render(){
   ?`<header class="brand"><h1 style="margin:0"><img src="${LOGO_MAIN}" alt="Racha dos Campeões" width="585" height="385"></h1><p>Tire o time com os titulares das finais que valeram taça.</p></header>`
   :`<header class="brand compact"><img src="${LOGO_ICON}" alt="" width="140" height="133"><b><span>Racha dos</span> Campeões</b>${S.room?`<span class="roomtag">Sala ${esc(S.room)}</span>`:""}</header>`;
  const screens={home,setup,join,lobby,start:startScreen,draft,vote,mural};
- app.innerHTML=head+(screens[S.screen]||home)();
+ app.innerHTML=head+(screens[S.screen]||home)()+`<p class="ver">Racha dos Campeões · versão ${VERSION}</p>`;
  S.lastFill=null;
  scheduleBot();
 }
