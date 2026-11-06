@@ -1,9 +1,4 @@
-<!doctype html>
-<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta http-equiv="Cache-Control" content="no-cache">
-<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-</head><body>
-<title>Racha dos Campeões</title>
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta http-equiv="Cache-Control" content="no-cache"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>Racha dos Campeões</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,600;0,700;0,800;0,900;1,800;1,900&display=swap">
@@ -264,6 +259,40 @@ h2{background:var(--gold-grad);-webkit-background-clip:text;background-clip:text
 .reacts{display:flex;gap:8px;justify-content:center}.reacts button{font-size:22px;width:44px;height:44px;border-radius:50%;background:#0d131b;border:1px solid var(--slate)}
 #toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#0d131b;border:1px solid var(--gold);color:var(--white);padding:10px 16px;border-radius:999px;font-weight:700;font-size:14px;z-index:30;transition:all .25s;max-width:90vw;text-align:center}
 #toast.show{opacity:1;transform:translate(-50%,0)}
+/* v21 */
+#toast{top:calc(64px + env(safe-area-inset-top,0px));bottom:auto;transform:translate(-50%,-12px);font-size:13px;padding:8px 14px}
+#toast.show{transform:translate(-50%,0)}
+.filters{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;max-width:100%}.filters::-webkit-scrollbar{display:none}.filters button{flex:none}
+.pool-head{flex-wrap:wrap}
+.donecta{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;padding:18px;border:1px solid var(--gold);border-radius:12px;background:linear-gradient(160deg,#1a1608,#0b0f14)}
+.donecta p{margin:0;font-weight:700}
+.btn.big{font-size:18px;padding:15px 28px}
+details.custom summary{cursor:pointer;display:flex;flex-direction:column;gap:2px;list-style:none}
+details.custom summary::-webkit-details-marker{display:none}
+details.custom summary::after{content:"Toque para editar nomes e formações";font-size:12px;color:var(--muted)}
+details.custom[open] summary::after{content:"Toque para fechar"}
+details.custom .teams{margin-top:12px}
+.sumtxt{font-weight:800;font-style:italic}
+.mvp{display:flex;gap:12px;align-items:center;border-top:1px solid var(--line);padding-top:12px}
+.mvp div{display:flex;flex-direction:column}.mvp b{font-size:18px;font-weight:900;font-style:italic;color:var(--white)}.mvp small{color:var(--muted)}
+.cnt.hit{animation:pop .4s ease-out}
+.slot.target.good .dot{border-color:#3ad16a;color:#3ad16a}
+.slot.target.near .dot{border-color:var(--gold);color:var(--gold)}
+.slot.target.bad .dot{border-color:var(--warn);color:var(--warn);opacity:.85}
+.slot.target.good .dot{animation:pulseg 1.1s ease-in-out infinite}
+@keyframes pulseg{50%{box-shadow:0 0 0 6px rgba(58,209,106,.25)}}
+.slot .pq{position:absolute;top:-4px;left:calc(50% + 10px);font-size:10px;font-weight:900;color:var(--warn)}
+.keyleg{display:inline-flex;gap:4px;align-items:center;font-size:11px;font-weight:600;opacity:.9;margin-left:4px}
+.keyleg i{width:8px;height:8px;border-radius:50%;display:inline-block;margin-left:4px}.kg{background:#3ad16a}.kn{background:#8a6d12}.kb{background:var(--warn)}
+.hands{display:flex;align-items:center;gap:14px;justify-content:center}
+.hand-n{display:flex;flex-direction:column;align-items:center;gap:2px;animation:shake .6s ease-in-out 2}
+.hand-n svg{width:56px;height:56px}.hand-n.A{color:var(--gold)}.hand-n.B{color:var(--chalk)}
+.hand-n b{font-size:34px;font-weight:900;line-height:1}.hand-n small{color:var(--muted)}
+.plus{font-size:30px;font-weight:900;color:var(--gold)}
+@keyframes shake{0%,100%{transform:translateY(0)}25%{transform:translateY(-10px) rotate(-6deg)}75%{transform:translateY(-4px) rotate(4deg)}}
+@media (prefers-reduced-motion:reduce){.hand-n,.slot.target.good .dot{animation:none}}
+.qbtn{font-size:13px;margin-top:6px}
+
 
 .ver{margin:8px 0 0;text-align:center;font-size:11px;color:var(--muted);opacity:.7}
 .invite{display:flex;flex-direction:column;gap:8px;align-items:center;width:100%;max-width:520px}
@@ -458,7 +487,7 @@ const ICON={
 };
 let S, DB=null, USER=null, ME=null, CANWRITE=null, unsub=null, writeQ=Promise.resolve(), botTimer=null;
 const BOT="B";
-const SHARED=["sim","pending","screen","names","form","order","selected","comp","start","poi","coin","first","pool","lineup","picks","history","cards","lastPos","vmap","closed","hostUid","guestUid","news"];
+const SHARED=["newsBy","sim","pending","screen","names","form","order","selected","comp","start","poi","coin","first","pool","lineup","picks","history","cards","lastPos","vmap","closed","hostUid","guestUid","news"];
 function gameReset(){return{poi:{step:0,choice:null,numA:null,numB:null},coin:null,first:"A",pool:[],lineup:{A:[],B:[]},picks:0,history:[],
  votes:{A:0,B:0},vmap:{},closed:false,publishedId:null,cards:{A:null,B:null},lastPos:{A:null,B:null},news:null,sel:null,filter:"ALL",reveal:null,peek:false,cmode:null,msg:null,lastFill:null,move:null,pending:null,sim:null,view:null,info:null,ovrShown:false,simShown:false,q:""}}
 function fresh(){return Object.assign({screen:"home",play:"local",seat:null,room:null,hostUid:null,guestUid:null,hostEditing:false,net:null,joinErr:null,dbState:"wait",
@@ -545,17 +574,17 @@ function changeForm(t,f){const players=S.lineup[t].filter(x=>x!==null).sort((a,b
 /* ações do jogo */
 function checkDraw(t){if(S.cards[t]||count(t)<5)return;const taken=S.cards[other(t)]?.id;
  const opts=Object.keys(CARDS).filter(k=>k!==taken);S.cards[t]={id:opts[Math.floor(Math.random()*opts.length)],used:false,seen:false};
- S.pending=t;S.sel=null;S.move=null;S.news=`${S.names[t]} tirou uma cartinha surpresa`;
+ S.pending=t;S.sel=null;S.move=null;S.news=`${S.names[t]} tirou uma cartinha surpresa`;S.newsBy=t;
  if(isBot(t))botCard(t);else if(controls(t)){S.reveal=t;S.peek=false}}
 function loseCard(t){const c=S.cards[t];c.used=true;c.lost=true;S.pending=null;S.cmode=null;S.news=`${S.names[t]} tirou ${CARDS[c.id].t}, mas não tinha jogada possível`}
-function place(t,pk,i,via){if(via)S.pending=null;S.view=null;sfx("pick");S.lineup[t][i]=pk;S.pool[pk].taken=t;S.lastPos[t]=S.pool[pk].pos;S.lastFill={t,i};
+function place(t,pk,i,via){S.newsBy=t;if(via)S.pending=null;S.view=null;sfx("pick");S.lineup[t][i]=pk;S.pool[pk].taken=t;S.lastPos[t]=S.pool[pk].pos;S.lastFill={t,i};
  if(via){S.history=[];S.news=`${S.names[t]} usou ${CARDS[via].t}: ${S.pool[pk].name} entrou no time`}
  else{S.history.push({t,i,pk});S.picks++;S.news=`${S.names[t]} escolheu ${S.pool[pk].name}`}
  checkDraw(t)}
-function doSwap(t,mine,theirs){const o=other(t),a=S.lineup[t][mine],b=S.lineup[o][theirs];
+function doSwap(t,mine,theirs){S.newsBy=t;const o=other(t),a=S.lineup[t][mine],b=S.lineup[o][theirs];
  S.lineup[t][mine]=b;S.lineup[o][theirs]=a;S.pool[a].taken=o;S.pool[b].taken=t;S.cards[t].used=true;S.pending=null;S.history=[];S.lastFill={t,i:mine};
  S.news=`${S.names[t]} usou Troca: levou ${S.pool[b].name} e deu ${S.pool[a].name}`}
-function doGoleiro(t,idx){const old=S.lineup[t][0];if(old!==null)S.pool[old].taken=null;
+function doGoleiro(t,idx){S.newsBy=t;const old=S.lineup[t][0];if(old!==null)S.pool[old].taken=null;
  S.lineup[t][0]=idx;S.pool[idx].taken=t;S.cards[t].used=true;S.pending=null;S.history=[];S.lastFill={t,i:0};
  S.news=`${S.names[t]} usou Goleiro: ${S.pool[idx].name} assumiu o gol`;checkDraw(t)}
 function useCard(t){const c=S.cards[t];S.sel=null;S.move=null;if(!usable(t)){loseCard(t);commit();return}
@@ -598,7 +627,7 @@ function scheduleBot(){if(S.play!=="bot"||botTimer)return;
  botTimer=setTimeout(()=>{botTimer=null;if(S.screen==="draft"&&turn()===BOT&&!S.reveal&&!S.cmode&&!S.pending){botMove();render()}},1100)}
 
 /* online fora do Claude: servidor público de mensagens, o anfitrião guarda a sala */
-const VERSION="20";
+const VERSION="21";
 const BROKERS=["wss://broker.emqx.io:8084/mqtt","wss://broker.hivemq.com:8884/mqtt"];
 const TOPIC=c=>"racha-dos-campeoes/v1/"+c;
 let MQ=null,STANDALONE=false;const ROOMS={};
@@ -766,7 +795,7 @@ function sfx(k){if(SND.on){try{AC=AC||new (window.AudioContext||window.webkitAud
  const seq={pick:[[660,.06]],flip:[[520,.07],[780,.1]],reveal:[[523,.08],[659,.08],[784,.14]],goal:[[392,.1],[523,.1],[659,.1],[784,.28]]}[k]||[];let t=AC.currentTime;
  seq.forEach(([f,d])=>{const o=AC.createOscillator(),g=AC.createGain();o.type="triangle";o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.16,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g).connect(AC.destination);o.start(t);o.stop(t+d+.02);t+=d})}catch(e){}
  try{navigator.vibrate&&navigator.vibrate(k==="goal"?[40,40,90]:k==="reveal"?[30,30,30]:20)}catch(e){}}}
-function toast(m){const el=document.getElementById("toast");if(!el)return;el.textContent=m;el.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove("show"),2400)}
+function toast(m){const el=document.getElementById("toast");if(!el||document.querySelector(".overlay"))return;el.textContent=m;el.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove("show"),2400)}
 function simulate(){const a=teamOvr("A"),b=teamOvr("B");
  const pois=l=>{const L=Math.exp(-l);let k=0,p=1;do{k++;p*=Math.random()}while(p>L);return k-1};
  const ga=Math.min(pois(1.3*Math.exp((a-b)/10)),6),gb=Math.min(pois(1.3*Math.exp((b-a)/10)),6);
@@ -776,7 +805,9 @@ function simulate(){const a=teamOvr("A"),b=teamOvr("B");
  const goals=[];for(let k=0;k<ga;k++)goals.push({t:"A",name:scorer("A"),min:1+Math.floor(Math.random()*90)});for(let k=0;k<gb;k++)goals.push({t:"B",name:scorer("B"),min:1+Math.floor(Math.random()*90)});
  goals.sort((x,y)=>x.min-y.min);let pens=null,winner=ga>gb?"A":gb>ga?"B":null;
  if(!winner){const pa=.74+(a-b)/200,pb=.74+(b-a)/200;let x=0,y=0,i=0;for(;i<5;i++){x+=Math.random()<pa;y+=Math.random()<pb}while(x===y){x+=Math.random()<pa;y+=Math.random()<pb}pens={a:x,b:y};winner=x>y?"A":"B"}
- return {a:ga,b:gb,goals,pens,winner,oa:a,ob:b}}
+ const L=slots(winner),gc={};goals.filter(g=>g.t===winner).forEach(g=>gc[g.name]=(gc[g.name]||0)+1);
+ let best=null;S.lineup[winner].forEach((pk,i)=>{const p=S.pool[pk];const sc=(gc[p.name]||0)*10+effOvr(p,L[i]);if(!best||sc>best.sc)best={sc,pk,name:p.name,goals:gc[p.name]||0,ovr:effOvr(p,L[i])}});
+ return {a:ga,b:gb,goals,pens,winner,oa:a,ob:b,mvp:best}}
 /* telas */
 
 const ONB=[["Escolha 2 campeões","Cada campeão entra com os 11 titulares da final. Juntos, eles formam a lista do racha. Quem entrou durante o jogo vira Jogador surpresa."],
@@ -795,8 +826,8 @@ function home(){
   <button class="mbtn" data-play="online" ${off?"disabled":""}><span class="mi">${ICON.online}</span><span><b>Online com amigo</b><small>Cria uma sala e cada um joga no seu celular</small></span></button>
   <button class="mbtn" data-act="toJoin" ${off?"disabled":""}><span class="mi">${ICON.join}</span><span><b>Entrar numa sala</b><small>Recebeu um código? Entre por aqui</small></span></button>
   <button class="mbtn" data-play="local"><span class="mi">${ICON.local}</span><span><b>Na mesma tela</b><small>Os dois times passando o celular</small></span></button>
-  <div class="row" style="justify-content:center"><button class="linkbtn" data-act="howto">Como jogar</button><button class="linkbtn" data-act="sound">Som: ${SND.on?"ligado":"desligado"}</button></div>
   <button class="mbtn" data-act="mural"><span class="mi">${ICON.mural}</span><span><b>Mural de votação</b><small>Rachas publicados nas últimas 24 horas</small></span></button>
+  <div class="row" style="justify-content:center"><button class="linkbtn" data-act="howto">Como jogar</button><button class="linkbtn" data-act="sound">Som: ${SND.on?"ligado":"desligado"}</button></div>
  </nav>
  ${saved&&!off?`<div class="panel row" style="justify-content:space-between"><span>Você estava na sala <b class="codetxt">${esc(saved.code)}</b></span><button class="btn small" data-act="rejoin">Voltar para a sala</button></div>`:""}
  ${off?`<p class="note" style="text-align:center">${STANDALONE?"Não consegui carregar o modo online. Verifique a internet e recarregue a página.":"O modo online precisa que você esteja na sua conta do Claude e com acesso de Contribuidor a este jogo."}</p>`:""}`;
@@ -816,13 +847,6 @@ function setup(){
     <label class="label" for="formB">Formação</label><select id="formB" data-form="B">${Object.keys(FORMS).map(f=>`<option ${S.form.B===f?"selected":""}>${f}</option>`).join("")}</select></div>`;
  const go=S.play==="online"&&!S.room?"Criar sala →":"Continuar →";
  return `<div class="row"><button class="btn ghost small" data-act="${S.hostEditing?"cancelEdit":"home"}">← ${S.hostEditing?"Voltar":"Menu"}</button><span class="label">${{bot:"Contra o robô",online:"Online com amigo",local:"Na mesma tela"}[S.play]}</span></div>
- <div class="teams">
-  <div class="teamcard A"><span class="label">${S.play==="local"?"Time 1":"Seu time"}</span>
-   <input id="nameA" data-name="A" value="${esc(S.names.A)}" maxlength="28" aria-label="Nome do seu time">
-   <label class="label" for="formA">Formação</label>
-   <select id="formA" data-form="A">${Object.keys(FORMS).map(f=>`<option ${S.form.A===f?"selected":""}>${f}</option>`).join("")}</select></div>
-  ${card2}
- </div>
  <section class="panel">
   <h2 style="font-size:28px;text-transform:uppercase">De onde vêm os jogadores</h2>
   <p class="note" style="margin-bottom:12px">Escolha 2 campeões. Os 11 que começaram a final de cada um formam a lista do racha. Quem entrou durante o jogo vira Jogador surpresa.</p>
@@ -848,6 +872,15 @@ function setup(){
  </section>
  <div class="ctabar"><div class="ctain"><span class="ctatxt"><b>${n} jogadores</b><small>${selNames.length?selNames.map(s=>esc(s.n)).join(" + "):"Escolha 2 campeões"}</small></span>
   <button class="btn" data-act="setupGo" ${n<22?"disabled":""}>${go}</button></div></div>
+ <details class="panel custom" id="custom" ${S.custOpen?"open":""}><summary><span class="label">Personalizar times</span><span class="sumtxt">${esc(S.names.A)} (${S.form.A}) × ${S.play==="online"?"amigo":esc(S.names.B)+" ("+S.form.B+")"}</span></summary>
+ <div class="teams">
+  <div class="teamcard A"><span class="label">${S.play==="local"?"Time 1":"Seu time"}</span>
+   <input id="nameA" data-name="A" value="${esc(S.names.A)}" maxlength="28" aria-label="Nome do seu time">
+   <label class="label" for="formA">Formação</label>
+   <select id="formA" data-form="A">${Object.keys(FORMS).map(f=>`<option ${S.form.A===f?"selected":""}>${f}</option>`).join("")}</select></div>
+  ${card2}
+ </div>
+ </details>
  <section class="panel teaser"><div class="backs">${cardBack(true)}${cardBack(true)}</div>
   <div style="display:flex;flex-direction:column;gap:6px;min-width:0"><h2 style="font-size:28px;text-transform:uppercase">Cartinhas surpresa</h2>
   <p class="note">Quando um time escolhe o 5º jogador, tira uma carta surpresa e é obrigado a usar na hora, mesmo fora da sua vez.</p></div></section>`;
@@ -910,7 +943,8 @@ function startScreen(){
   else if(P.step===2)body=`<span class="label">Número de ${esc(A)} escondido</span><h2><span class="tagB">${esc(B)}</span>, escolha seu número</h2>
    ${controls("B")?nums("B"):`<p class="note">Aguardando ${esc(B)} escolher o número.</p>`}`;
   else{const s=P.numA+P.numB,par=s%2===0,win=(par===(P.choice==="par"))?"A":"B";
-   body=`<span class="label">${esc(A)} ${P.numA} + ${esc(B)} ${P.numB}</span><div class="big">${s} · ${par?"PAR":"ÍMPAR"}</div>
+   const hand=(n,t)=>`<div class="hand-n ${t}"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M20 58c-6-4-10-12-10-20V26a4 4 0 0 1 8 0v8V12a4 4 0 0 1 8 0v18V8a4 4 0 0 1 8 0v22V12a4 4 0 0 1 8 0v20l3-6a4 4 0 0 1 7 4l-7 16c-3 8-9 12-17 12z" fill="currentColor"/></svg><b>${n}</b><small>${esc(S.names[t])}</small></div>`;
+   body=`<div class="hands">${hand(P.numA,"A")}<span class="plus">+</span>${hand(P.numB,"B")}</div><div class="big">${s} · ${par?"PAR":"ÍMPAR"}</div>
    <h2><span class="tag${win}">${esc(S.names[win])}</span> começa escolhendo</h2>
    ${isHost()?`<button class="btn" data-act="startDraft" data-first="${win}">Começar o racha →</button>`:`<p class="note">Aguardando ${esc(A)} começar.</p>`}`}
  }
@@ -931,7 +965,7 @@ function field(t,interactive){
  const swapOn=interactive&&M&&M.type==="troca"&&((M.step===0&&t===M.t)||(M.step===1&&t!==M.t));
  const arr=interactive&&canArrange(t);
  return `<div class="field-wrap ${t}">
-  <div class="field-title"><h3>${esc(S.names[t])}${S.play==="online"&&S.seat===t?` <small class="you">você</small>`:""}${showOvr()?` <span class="tovr">${teamOvr(t)}</span>`:""}</h3>${interactive&&canArrange(t)?`<span class="fsel"><select data-fchange="${t}" aria-label="Formação de ${esc(S.names[t])}">${Object.keys(FORMS).map(f=>`<option ${S.form[t]===f?"selected":""}>${f}</option>`).join("")}</select><span class="label">${count(t)}/11</span></span>`:`<span class="label">${S.form[t]} · ${count(t)}/11</span>`}</div>
+  <div class="field-title"><h3>${esc(S.names[t])}${S.play==="online"&&S.seat===t?` <small class="you">você</small>`:""}${showOvr()?` <span class="tovr cnt" data-to="${teamOvr(t)}">${teamOvr(t)}</span>`:""}</h3>${interactive&&canArrange(t)?`<span class="fsel"><select data-fchange="${t}" aria-label="Formação de ${esc(S.names[t])}">${Object.keys(FORMS).map(f=>`<option ${S.form[t]===f?"selected":""}>${f}</option>`).join("")}</select><span class="label">${count(t)}/11</span></span>`:`<span class="label">${S.form[t]} · ${count(t)}/11</span>`}</div>
   ${interactive?`<div class="hand">${hand(t)}</div>`:""}
   <div class="pitch"><div class="lines">${rows.map(r=>`<div class="lr">${r.map(lbl=>({lbl,i:idx++})).reverse().map(({lbl,i})=>{const pk=S.lineup[t][i];
    if(pk!==null&&pk!==undefined){const p=S.pool[pk];const fr=S.lastFill&&S.lastFill.t===t&&S.lastFill.i===i;
@@ -941,12 +975,13 @@ function field(t,interactive){
     if(arr&&S.move&&S.move.t===t)return `<button class="slot filled mv ${S.move.i===i?"chosen":""}" data-mv="${i}" data-team="${t}" title="Trocar com ${esc(p.name)}">${inner}</button>`;
     return `<button class="slot filled ${fr?"fresh":""} ${ch?"chosen":""}" data-info="${i}" data-team="${t}" title="${esc(p.name)}">${inner}</button>`}
    if(arr&&S.move&&S.move.t===t)return `<button class="slot target" data-mv="${i}" data-team="${t}" aria-label="Mover para ${lbl}"><span class="dot">${lbl}</span></button>`;
-   return canTarget?`<button class="slot target" data-slot="${i}" data-team="${t}" aria-label="Colocar em ${lbl}"><span class="dot">${lbl}</span></button>`
+   if(canTarget){const sp=S.pool[S.sel],q=pen(sp,lbl);return `<button class="slot target ${q===0?"good":q<=NEARPEN?"near":"bad"}" data-slot="${i}" data-team="${t}" aria-label="Colocar em ${lbl}${q?" (improvisado −"+q+")":""}"><span class="dot">${lbl}</span>${q?`<span class="pq">−${q}</span>`:""}</button>`}
+   return false?""
      :`<div class="slot"><div class="dot">${lbl}</div></div>`}).join("")}</div>`).join("")}</div></div>
  </div>`;
 }
 
-let OVK=0,ANIM=false;
+let OVK=0,ANIM=false;let GAMES=0;try{GAMES=+(localStorage.getItem("racha_games")||0)}catch(e){}
 function fieldsBlock(inter){const M=S.cmode;let v=S.view;
  if(M&&M.type==="troca")v=M.step===0?M.t:other(M.t);
  if(M&&M.type==="bonus")v=M.t;
@@ -959,15 +994,16 @@ function infoSheet(){if(!S.info)return "";const {t,i}=S.info;const pk=S.lineup[t
   <div class="sh-top"><span class="dot big" style="${shirt(p)}">${esc(initials(p.name))}</span><div><h3>${esc(p.name)}</h3><p class="note">${esc(sq?sq.n:(p.tags||[]).join(" "))}${sq?" · "+esc(COMPS.find(x=>x[0]===sq.c[0])[1]):""}</p></div></div>
   <dl class="facts"><dt>Posições</dt><dd>${pdet(p).map(x=>POSNAME[x]).join(", ")}</dd>
   <dt>Escalado como</dt><dd>${esc(lbl)}${off?` <span class="warn">· improvisado (−${pn} no overall)</span>`:""}</dd>
+  ${(()=>{const o=SQUADS.filter(s=>s.id!==p.sq&&s.p.split(",").some(e=>{const [n,ps]=e.replace(/^\*/,"").split(":");return n===p.name&&ps===p.pos})).sort((x,y)=>yrOf(x.id)-yrOf(y.id)).map(s=>s.n);return o.length?`<dt>Também em</dt><dd>${o.map(esc).join(", ")}</dd>`:""})()}
   <dt>Overall</dt><dd>${showOvr()?`<b class="mo">${effOvr(p,lbl)}</b>${off?` (${p.ovr} na posição dele)`:""}`:"aparece quando os dois times fecharem"}</dd></dl>
   <div class="row" style="justify-content:flex-end">${canArrange(t)&&!S.cmode?`<button class="btn ghost" data-act="startMove">Mudar de posição</button>`:""}<button class="btn" data-act="closeInfo">Fechar</button></div>
  </div></div>`}
 function presence(t){if(S.play!=="online"||!S.seen)return "";const on=Date.now()-(S.seen[t]||0)<45000;return `<i class="pres ${on?"on":""}" title="${on?"online":"offline"}"></i>`}
 function reacts(){return S.play==="online"&&S.seat?`<div class="reacts" aria-label="Reações">${["👏","🔥","😂","😱","🤡"].map(e=>`<button data-react="${e}" aria-label="Reagir ${e}">${e}</button>`).join("")}</div>`:""}
 function scoreboard(){
- const sb=t=>`<div class="sb-team ${t}"><span class="sbn">${presence(t)}${esc(S.names[t])}</span><small>${S.form[t]}${showOvr()?` · overall ${teamOvr(t)}`:""}</small><div class="pbar"><i style="width:${Math.round(count(t)/11*100)}%"></i></div><small class="pc">${count(t)}/11 escolhidos</small></div>`;
+ const sb=t=>`<div class="sb-team ${t}"><span class="sbn">${presence(t)}${esc(S.names[t])}</span><small>${S.form[t]}${showOvr()?` · overall <span class="cnt" data-to="${teamOvr(t)}">${teamOvr(t)}</span>`:""}</small><div class="pbar"><i style="width:${Math.round(count(t)/11*100)}%"></i></div><small class="pc">${count(t)}/11 escolhidos</small></div>`;
  return `<div class="scoreboard">${sb("A")}<div class="sb-mid"><span class="vs">×</span></div>${sb("B")}</div>
-  ${S.news?`<div class="news"><span class="label">Última jogada</span> ${esc(S.news)}</div>`:""}`;
+`;
 }
 
 function banner(t){
@@ -983,10 +1019,10 @@ function banner(t){
   :`<div class="turn ${p} waiting"><span>${N} tirou uma cartinha surpresa</span><span>Aguardando a carta ser usada…</span></div>`}
  if(S.move){const p=S.pool[S.lineup[S.move.t][S.move.i]];return `<div class="turn ${S.move.t}"><span>Mover ${esc(p.name)}: toque em outra posição do seu campo</span><button class="btn small" data-act="cancelMove">Cancelar</button></div>`}
  if(S.msg){const m=S.msg;S.msg=null;return `<div class="turn ${t}"><span>${esc(m)}</span><span>Escolha um jogador normalmente</span></div>`}
- if(t===null)return `<div class="turn done"><span>Times fechados! O overall de cada jogador foi revelado.</span><button class="btn small ghost" data-act="toVote">Ver os times →</button></div>`;
+ if(t===null)return `<div class="donecta"><p>Times fechados! O overall de cada jogador foi revelado.</p><button class="btn big" data-act="toVote">Ver resultado da partida →</button></div>`;
  if(!controls(t))return `<div class="turn ${t} waiting"><span>Vez de ${esc(S.names[t])}</span><span>${isBot(t)?"O robô está pensando…":"Aguardando a escolha…"}</span></div>`;
  const who=S.play==="local"?`Vez de ${esc(S.names[t])}`:"Sua vez";
- return `<div class="turn ${t}"><span>${who} · escolha ${S.picks+1}</span><span>${sel?`${esc(sel.name)} → toque numa posição do campo`:"Toque num jogador da lista"}</span></div>`;
+ return `<div class="turn ${t}"><span>${who} · escolha ${S.picks+1}</span><span>${sel?`${esc(sel.name)} → toque numa posição <small class="keyleg"><i class="kg"></i>joga bem <i class="kn"></i>−2 <i class="kb"></i>improvisado</small>`:"Toque num jogador da lista"}</span></div>`;
 }
 
 function draft(){
@@ -1006,7 +1042,7 @@ function draft(){
    <input id="poolSearch" class="search" type="search" placeholder="Buscar jogador" value="${esc(S.q||"")}" autocomplete="off" aria-label="Buscar jogador">
    <div class="filters" role="group" aria-label="Filtrar por posição">${["ALL",...POS_ORDER].map(f=>`<button data-filter="${f}" aria-pressed="${filter===f}" ${lockPos?"disabled":""}>${f==="ALL"?"Todos":f}</button>`).join("")}</div></div>
   <div class="pool">${list.map(p=>plBtn(p,`data-pick="${p.i}" aria-pressed="${S.sel===p.i}"`)).join("")||`<p class="note">${left?"Ninguém encontrado.":"Todos os jogadores foram escolhidos."}</p>`}</div>
-  <p class="legend">GOL goleiro · LD/LE laterais · ZAG zagueiro · VOL volante · MC meio-campo · MEI meia · PD/PE pontas · CA centroavante</p>
+  ${GAMES>0&&!S.legend?`<button class="linkbtn qbtn" data-act="legend" aria-label="O que significam as siglas">? Siglas das posições</button>`:`<p class="legend">GOL goleiro · LD/LE laterais · ZAG zagueiro · VOL volante · MC meio-campo · MEI meia · PD/PE pontas · CA centroavante</p>`}
  </section>`;
  let ov="";
  if(S.reveal){const r=S.reveal,N=esc(S.names[r]),can=turn()===r&&usable(r);
@@ -1026,7 +1062,7 @@ function draft(){
  const foot=S.play==="online"
   ?`<button class="btn ghost small" data-act="leave">Sair da sala</button>`
   :`${S.play==="local"?`<button class="btn ghost small" data-act="undo" ${S.history.length&&!M?"":"disabled"}>↶ Desfazer última escolha</button>`:""}<button class="btn ghost small" data-act="restart">Recomeçar</button>`;
- return `${scoreboard()}${banner(t)}${S.net?`<p class="note warn">${esc(S.net)}</p>`:""}${poolSec}
+ return `${scoreboard()}${banner(t)}${S.net?`<p class="note warn">${esc(S.net)}</p>`:""}${t===null&&!M&&!S.pending?"":poolSec}
  ${reacts()}${fieldsBlock(true)}
  <div class="row">${foot}</div>${ov}`;
 }
@@ -1045,6 +1081,7 @@ function vote(){
   ${s.pens?`<p class="pens">Empate no tempo normal · pênaltis ${s.pens.a} × ${s.pens.b}</p>`:""}
   ${s.goals.length?`<ol class="goals">${s.goals.map(g=>`<li class="${g.t}"><b>${g.min}'</b> ${esc(g.name)} <small>${esc(S.names[g.t])}</small></li>`).join("")}</ol>`:`<p class="note" style="text-align:center">Jogo sem gols.</p>`}
   <div class="champ">Vitória de ${esc(S.names[s.winner])}</div>
+  ${s.mvp&&S.pool[s.mvp.pk]?`<div class="mvp"><span class="dot big" style="${shirt(S.pool[s.mvp.pk])}">${esc(initials(s.mvp.name))}</span><div><span class="label">Craque da partida</span><b>${esc(s.mvp.name)}</b><small>${s.mvp.goals?s.mvp.goals+(s.mvp.goals>1?" gols":" gol")+" · ":""}overall ${s.mvp.ovr} · ${esc((S.pool[s.mvp.pk].tags||[])[0]||"")}</small></div></div>`:""}
  </section>`:`<section class="panel"><p class="note">Simulando a partida…</p></section>`;
  let res="";
  if(S.closed){res=V.A===V.B?`<div class="winner"><span class="label">${V.A} × ${V.B}</span><div class="big">Empate</div></div>`
@@ -1079,8 +1116,10 @@ function render(){
  const ae=document.activeElement,focusId=ae&&ae.id&&ae.tagName==="INPUT"?ae.id:null,caret=focusId?ae.selectionStart:null;
  app.innerHTML=head+(screens[S.screen]||home)()+`<p class="ver">Racha dos Campeões · versão ${VERSION}</p>`+(S.screen==="draft"||S.screen==="vote"?infoSheet():"")+onbSheet();
  if(focusId){const el=document.getElementById(focusId);if(el){el.focus();try{el.setSelectionRange(caret,caret)}catch(e){}}}
- if(S.screen==="draft"&&S.news&&S.news!==S._newsSeen){if(S._newsSeen!==undefined)toast(S.news);S._newsSeen=S.news}
+ if(S.screen==="draft"&&S.news&&S.news!==S._newsSeen){if(S._newsSeen!==undefined&&S.newsBy&&(!controls(S.newsBy)||isBot(S.newsBy))&&!S.reveal)toast(S.news);S._newsSeen=S.news}
  if(S.scroll&&window.innerWidth<760){const k=S.scroll;requestAnimationFrame(()=>{const el=k==="field"?document.querySelector(".field-wrap:not(.mhide) .pitch"):document.getElementById("poolPanel");if(el)el.scrollIntoView({behavior:"smooth",block:k==="field"?"center":"start"})})}
+ if(ANIM){const rm=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;if(!rm)document.querySelectorAll(".cnt").forEach(el=>{const to=+el.dataset.to;el.textContent="?";
+  setTimeout(()=>{let v=Math.max(50,to-20);el.textContent=v;const iv=setInterval(()=>{v++;el.textContent=v;if(v>=to){clearInterval(iv);el.classList.add("hit")}},40)},11*90+400)})}
  S.scroll=null;
  S.lastFill=null;
  scheduleBot();
@@ -1165,7 +1204,8 @@ document.addEventListener("click",e=>{
   cancelMove(){S.move=null},
   cancelMode(){},
   restart(){S.screen="setup"},
-  toVote(){S.screen="vote";if(!S.sim)S.sim=simulate();S.view=null;window.scrollTo({top:0});if(S.play==="online")commit()},
+  legend(){S.legend=true},
+  toVote(){S.screen="vote";if(!S.sim){S.sim=simulate();GAMES++;try{localStorage.setItem("racha_games",String(GAMES))}catch(e){}}S.view=null;window.scrollTo({top:0});if(S.play==="online")commit()},
   startMove(){if(S.info&&canArrange(S.info.t)){S.move={t:S.info.t,i:S.info.i}}S.info=null},
   closeInfo(){S.info=null},
   sound(){SND.on=!SND.on;try{localStorage.setItem("racha_snd",SND.on?"1":"0")}catch(e){}if(SND.on)sfx("pick")},
@@ -1183,6 +1223,7 @@ document.addEventListener("click",e=>{
 });
 document.addEventListener("input",e=>{const el=e.target;if(el.id==="poolSearch"){S.q=el.value;render();return}if(el.dataset.name){S.names[el.dataset.name]=el.value||(el.dataset.name==="A"?"Time Ouro":"Time Prata")}
  if(el.id==="joinCode"){el.value=el.value.toUpperCase().replace(/[^A-Z]/g,"")}});
+document.addEventListener("toggle",e=>{if(e.target&&e.target.id==="custom")S.custOpen=e.target.open},true);
 document.addEventListener("change",e=>{const el=e.target;if(el.dataset.form){S.form[el.dataset.form]=el.value;render()}
  if(el.dataset.fchange){const t=el.dataset.fchange;if(!canArrange(t))return render();changeForm(t,el.value);commitArrange(t);render()}});
 
@@ -1206,5 +1247,4 @@ function start(data){S=data&&data.S?data.S:fresh();S.dbState=S.dbState||"wait";
 window.claude?.hot?.snapshot?.(()=>({S}));
 window.claude?.hot?.ready?window.claude.hot.ready(start):start(window.claude?.hot?.data??{});
 </script>
-
 </body></html>
